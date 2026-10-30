@@ -99,3 +99,13 @@ npm run dev
 ### 3. Open in Browser
 - **Live Website**: [http://localhost:3000](http://localhost:3000)
 - **Admin Panel**: [http://localhost:3000/admin](http://localhost:3000/admin)
+
+## ☁️ Deploying to Netlify
+
+This is a server-rendered Express app, so Netlify runs it through the function in `netlify/functions/site.js`. Keep `netlify.toml`, `package.json`, and `package-lock.json` at the repository root. In Netlify, set the **Base directory** to the repository root and add these environment variables under **Site configuration → Environment variables**:
+
+- `SESSION_SECRET`: a long, random secret (at least 32 characters)
+- `ADMIN_USERNAME`: the initial administrator username
+- `ADMIN_PASSWORD`: a strong initial administrator password
+
+The function uses temporary storage for SQLite and uploaded files. Netlify may discard that data when a function instance is replaced, so this setup is suitable for a preview or demo, not for retaining production leads or admin changes. Use a persistent database and object storage before relying on the admin CMS for live data.

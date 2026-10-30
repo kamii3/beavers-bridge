@@ -7,7 +7,7 @@ const bcrypt = require('bcryptjs');
 const db = require('../db');
 
 // Ensure uploads directory exists
-const uploadDir = path.join(__dirname, '../public/uploads');
+const uploadDir = process.env.UPLOAD_DIR || path.join(__dirname, '../public/uploads');
 if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir, { recursive: true });
 }

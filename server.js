@@ -7,17 +7,21 @@ const db = require('./db');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+const appRoot = process.env.APP_ROOT || __dirname;
 
 // View engine setup
 app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views'));
+app.set('views', path.join(appRoot, 'views'));
 
 // Body parsers
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 app.use(express.json({ limit: '10mb' }));
 
 // Static files
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(appRoot, 'public')));
+if (process.env.NETLIFY) {
+  app.use('/uploads', express.static(process.env.UPLOAD_DIR || path.join(require('os').tmpdir(), 'beavers-bridge-uploads')));
+}
 
 // Session configuration
 const sessionSecret = process.env.SESSION_SECRET || crypto.randomBytes(32).toString('hex');
@@ -74,11 +78,13 @@ app.use((err, req, res, next) => {
   });
 });
 
-app.listen(PORT, () => {
-  console.log(`=======================================================`);
-  console.log(`🌲 Beaver's Bridge Platform running at http://localhost:${PORT}`);
-  console.log(`🔑 Admin Panel: http://localhost:${PORT}/admin`);
-  console.log(`=======================================================`);
-});
+if (!process.env.NETLIFY) {
+  app.listen(PORT, () => {
+    console.log(`=======================================================`);
+    console.log(`🌲 Beaver's Bridge Platform running at http://localhost:${PORT}`);
+    console.log(`🔑 Admin Panel: http://localhost:${PORT}/admin`);
+    console.log(`=======================================================`);
+  });
+}
 
 module.exports = app;

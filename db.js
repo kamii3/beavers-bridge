@@ -4,8 +4,11 @@ const bcrypt = require('bcryptjs');
 const crypto = require('crypto');
 const path = require('path');
 const fs = require('fs');
+const os = require('os');
 
-const dbDir = path.join(__dirname, 'data');
+const dbDir = process.env.NETLIFY
+  ? path.join(os.tmpdir(), 'beavers-bridge-data')
+  : path.join(__dirname, 'data');
 if (!fs.existsSync(dbDir)) {
   fs.mkdirSync(dbDir, { recursive: true });
 }
