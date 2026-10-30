@@ -1,0 +1,93 @@
+<%- include('partials/header') %>
+
+<!-- SERVICES HERO -->
+<section class="hero">
+  <div class="container hero-content" style="text-align: center; max-width: 800px; margin: 0 auto;">
+    <div class="badge-pill">
+      <i data-lucide="layers" style="width: 14px; height: 14px;"></i>
+      <span>End-to-End Organic Acquisition Engine</span>
+    </div>
+    <h1 class="hero-title" style="font-size: 2.7rem; margin-bottom: 12px;">
+      Our Core Services &amp; <br>
+      <span class="text-gold">System Deliverables</span>
+    </h1>
+    <p class="hero-subtitle" style="margin-bottom: 0;">
+      We don’t just post on Facebook; we transform your company into the benchmark authority that neighborhoods naturally seek out and recommend.
+    </p>
+  </div>
+</section>
+
+<!-- SERVICES DETAILED BREAKDOWN -->
+<section class="section section-white" style="padding-top: 16px;">
+  <div class="container">
+    <div style="display: flex; flex-direction: column; gap: 24px;">
+      <% services.forEach((service, index) => { %>
+        <div class="service-card" style="display: grid; grid-template-columns: 1fr 1.3fr; gap: 28px; padding: 28px 26px; align-items: center; background: <%= index % 2 === 1 ? 'var(--bg-creamy)' : 'var(--bg-white)' %>;">
+          <div>
+            <div class="badge-pill <%= index % 2 === 1 ? 'badge-gold' : '' %>">
+              <span>Pillar 0<%= index + 1 %></span>
+            </div>
+            <div class="service-icon-box" style="margin-bottom: 14px;">
+              <i data-lucide="<%= service.icon || 'star' %>" style="width: 24px; height: 24px;"></i>
+            </div>
+            <h2 style="font-size: 1.7rem; color: var(--forest-green); margin-bottom: 8px; line-height: 1.2;"><%= service.title %></h2>
+            <p style="color: var(--acorn-gold); font-weight: 700; font-size: 0.98rem; margin-bottom: 12px;">
+              "<%= service.tagline %>"
+            </p>
+            <p style="color: var(--text-body); font-size: 0.92rem; line-height: 1.55; margin-bottom: 16px;">
+              <%= service.description %>
+            </p>
+            <div style="background: rgba(1, 81, 18, 0.06); border-left: 3px solid var(--forest-green); padding: 10px 14px; border-radius: 0 var(--radius-sm) var(--radius-sm) 0; font-size: 0.85rem; color: var(--text-body);">
+              <strong>Ideal For:</strong> <%= service.best_for || 'Growing service businesses wanting authority.' %>
+            </div>
+          </div>
+
+          <div style="background: var(--bg-white); border: 1.5px solid var(--border-subtle); border-radius: var(--radius-md); padding: 22px; box-shadow: var(--shadow-sm);">
+            <h4 style="font-size: 1.05rem; color: var(--forest-green); margin-bottom: 14px; display: flex; align-items: center; gap: 8px;">
+              <i data-lucide="check-square" style="color: var(--moss-green); width: 18px; height: 18px;"></i>
+              <span>Included Deliverables:</span>
+            </h4>
+            <ul style="list-style: none; display: flex; flex-direction: column; gap: 10px;">
+              <% (service.deliverables || []).forEach(d => { %>
+                <li style="display: flex; align-items: flex-start; gap: 12px; font-size: 0.95rem; color: var(--text-body);">
+                  <i data-lucide="check" style="color: var(--forest-green); width: 18px; height: 18px; flex-shrink: 0; margin-top: 2px;"></i>
+                  <span><%= d %></span>
+                </li>
+              <% }) %>
+            </ul>
+            <div style="margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--border-subtle);">
+              <a href="/contact" class="btn btn-moss" style="font-size: 0.95rem; padding: 14px 24px; width: 100%;">
+                <span>Deploy This System For Your Market</span>
+                <i data-lucide="arrow-right" style="width: 16px; height: 16px;"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      <% }) %>
+    </div>
+  </div>
+</section>
+
+<!-- CALL TO ACTION BANNER (Creamy Ivory) -->
+<section class="section section-cream">
+  <div class="container" style="text-align: center; max-width: 800px;">
+    <div class="badge-pill badge-gold">
+      <i data-lucide="zap" style="width: 14px; height: 14px;"></i>
+      <span>Turnkey Implementation</span>
+    </div>
+    <h2 style="font-size: 2.8rem; color: var(--forest-green); margin-bottom: 20px;">
+      We Do The Heavy Lifting. <br>
+      <span class="text-gold">You Close The Qualified Jobs.</span>
+    </h2>
+    <p style="color: var(--text-body); font-size: 1.15rem; line-height: 1.6; margin-bottom: 36px;">
+      Schedule your initial discovery call and let our team map out the exact groups, content angles, and timeline tailored to your target territory.
+    </p>
+    <a href="/contact" class="btn btn-moss" style="padding: 16px 36px; font-size: 1.05rem;">
+      <span>Schedule Your Free Strategy Session</span>
+      <i data-lucide="arrow-right" style="width: 20px; height: 20px;"></i>
+    </a>
+  </div>
+</section>
+
+<%- include('partials/case-study-modal') %>
+<%- include('partials/footer') %>

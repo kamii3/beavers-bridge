@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title || "Beaver's Bridge Admin" %></title>
+  
+  <link rel="icon" type="image/png" href="/images/favicon.png">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/admin.css">
+</head>
+<body class="admin-body">
+
+  <!-- Admin Sidebar (Forest Green #015112) -->
+  <aside class="admin-sidebar">
+    <div class="admin-sidebar-header">
+      <img src="/images/logo.png" alt="Beaver's Bridge" class="admin-logo-img">
+      <div>
+        <div class="admin-brand-title">Beaver's Bridge</div>
+        <div class="admin-brand-sub">Backend Portal</div>
+      </div>
+    </div>
+
+    <nav class="admin-nav">
+      <a href="/admin" class="admin-nav-item <%= activeTab === 'dashboard' ? 'active' : '' %>">
+        <i data-lucide="layout-dashboard"></i>
+        <span>Dashboard</span>
+      </a>
+
+      <a href="/admin/projects" class="admin-nav-item <%= activeTab === 'projects' ? 'active' : '' %>">
+        <i data-lucide="folder-kanban"></i>
+        <span>Projects &amp; Work</span>
+      </a>
+
+      <a href="/admin/testimonials" class="admin-nav-item <%= activeTab === 'testimonials' ? 'active' : '' %>">
+        <i data-lucide="message-square"></i>
+        <span>Testimonials</span>
+      </a>
+
+      <a href="/admin/leads" class="admin-nav-item <%= activeTab === 'leads' ? 'active' : '' %>">
+        <i data-lucide="inbox"></i>
+        <span>Inbound Leads</span>
+      </a>
+
+      <a href="/admin/settings" class="admin-nav-item <%= activeTab === 'settings' ? 'active' : '' %>">
+        <i data-lucide="settings"></i>
+        <span>Settings</span>
+      </a>
+    </nav>
+
+    <div class="admin-sidebar-footer">
+      <div class="admin-user-info">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <div style="width: 28px; height: 28px; border-radius: 50%; background: var(--admin-gold); display: flex; align-items: center; justify-content: center; font-weight: 800; color: #ffffff; font-size: 0.8rem;">
+            <%= user.username.charAt(0).toUpperCase() %>
+          </div>
+          <span style="font-weight: 600; color: #ffffff;"><%= user.username %></span>
+        </div>
+        <a href="/logout" title="Log out" style="color: #e2e8f0; hover: color: #ef4444;">
+          <i data-lucide="log-out" style="width: 18px; height: 18px;"></i>
+        </a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Admin Main View Wrapper -->
+  <div class="admin-main">
+    <header class="admin-topbar">
+      <div class="admin-topbar-title">
+        <%= title.split('|')[0].trim() %>
+      </div>
+
+      <div class="admin-topbar-actions">
+        <a href="/" target="_blank" class="btn btn-outline-forest" style="font-size: 0.85rem; padding: 8px 16px;">
+          <i data-lucide="external-link" style="width: 14px; height: 14px;"></i>
+          <span>View Live Site</span>
+        </a>
+      </div>
+    </header>
+
+    <main class="admin-content">

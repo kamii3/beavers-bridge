@@ -1,0 +1,126 @@
+<%- include('partials/header') %>
+
+<!-- CONTACT HERO -->
+<section class="hero">
+  <div class="container hero-content" style="text-align: center; max-width: 800px; margin: 0 auto;">
+    <div class="badge-pill badge-gold">
+      <i data-lucide="calendar" style="width: 14px; height: 14px;"></i>
+      <span>Free Growth Audit &amp; Strategy Consultation</span>
+    </div>
+    <h1 class="hero-title" style="font-size: 2.7rem; margin-bottom: 12px;">
+      Let's Build Your <br>
+      <span class="text-gold">Community Growth Bridge</span>
+    </h1>
+    <p class="hero-subtitle" style="margin-bottom: 0;">
+      Stop wasting thousands on volatile ad platforms. Apply for a private 30-minute growth roadmap session with our senior organic strategists.
+    </p>
+  </div>
+</section>
+
+<!-- MAIN CONTACT / APPLICATION SECTION -->
+<section class="section section-cream">
+  <div class="container">
+    <div class="booking-card">
+      <div class="booking-info">
+        <h2 style="font-size: 2.2rem; color: var(--forest-green); line-height: 1.2; margin-bottom: 20px;">
+          What to Expect from Your <br>
+          <span class="text-gold">Discovery Session:</span>
+        </h2>
+        <p style="color: var(--text-body); font-size: 1.05rem; line-height: 1.6; margin-bottom: 28px;">
+          This isn't a high-pressure sales pitch. It's a pragmatic, data-backed assessment of your local digital ecosystem.
+        </p>
+
+        <ul class="booking-perks" style="margin-bottom: 40px;">
+          <li class="booking-perk-item">
+            <i data-lucide="check" style="width: 18px; height: 18px;"></i>
+            <span><strong>Target Group Audit:</strong> We identify the top 20 active homeowner groups in your area.</span>
+          </li>
+          <li class="booking-perk-item">
+            <i data-lucide="check" style="width: 18px; height: 18px;"></i>
+            <span><strong>Competitor Gap Analysis:</strong> We inspect what other local vendors are doing (or failing to do).</span>
+          </li>
+          <li class="booking-perk-item">
+            <i data-lucide="check" style="width: 18px; height: 18px;"></i>
+            <span><strong>Craftsmanship Angle Blueprint:</strong> The exact storylines and hooks that will resonate in your market.</span>
+          </li>
+          <li class="booking-perk-item">
+            <i data-lucide="check" style="width: 18px; height: 18px;"></i>
+            <span><strong>Territory Exclusivity Verification:</strong> Ensuring your niche isn’t already locked in by an existing partner.</span>
+          </li>
+        </ul>
+
+        <div style="background: var(--bg-creamy); border: 2px solid var(--forest-green); padding: 22px 26px; border-radius: var(--radius-md);">
+          <div style="font-size: 0.85rem; color: var(--acorn-gold); text-transform: uppercase; font-weight: 800; margin-bottom: 6px;">Direct Inquiries</div>
+          <div style="font-size: 1.15rem; color: var(--forest-green); font-weight: 800;"><%= (settings && settings.contact_email) || 'hello@beaversbridge.com' %></div>
+          <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 4px;"><%= (settings && settings.contact_response_time) || 'Average Response Time: Under 4 Hours (Mon–Fri)' %></div>
+        </div>
+      </div>
+
+      <!-- Strategy Call Form -->
+      <div>
+        <form class="booking-form" id="strategyLeadForm">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="name">Your Name *</label>
+              <input type="text" id="name" name="name" class="form-input" placeholder="Full name" required>
+            </div>
+            <div class="form-group">
+              <label for="email">Business Email *</label>
+              <input type="email" id="email" name="email" class="form-input" placeholder="email@company.com" required>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="phone">Phone Number</label>
+              <input type="tel" id="phone" name="phone" class="form-input" placeholder="(555) 000-0000">
+            </div>
+            <div class="form-group">
+              <label for="company">Company Name</label>
+              <input type="text" id="company" name="company" class="form-input" placeholder="Company name">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="website">Company Website / Social Profile</label>
+              <input type="url" id="website" name="website" class="form-input" placeholder="https://yourcompany.com">
+            </div>
+            <div class="form-group">
+              <label for="service_needed">Service Interest</label>
+              <select id="service_needed" name="service_needed" class="form-select">
+                <% (services || []).forEach(s => { %>
+                  <option value="<%= s.title %>"><%= s.title %></option>
+                <% }) %>
+                <option value="Full Organic Pipeline">Full Turnkey Community System</option>
+                <option value="General Consultation">General Inquiry</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="monthly_budget">Current Monthly Marketing Budget</label>
+            <select id="monthly_budget" name="monthly_budget" class="form-select">
+              <option value="$1,000 - $3,000 / mo">$1,000 - $3,000 / mo</option>
+              <option value="$3,000 - $6,000 / mo">$3,000 - $6,000 / mo</option>
+              <option value="$6,000 - $12,000+ / mo">$6,000 - $12,000+ / mo</option>
+              <option value="Over $15,000 / mo">Enterprise ($15k+ / mo)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="message">Your Target Service Territory &amp; Goals</label>
+            <textarea id="message" name="message" class="form-textarea" rows="3" placeholder="Tell us about the counties/cities you serve and your current lead bottleneck..."></textarea>
+          </div>
+
+          <button type="submit" class="btn btn-moss" style="padding: 16px; font-size: 1.05rem; width: 100%;">
+            <span>Submit Strategy Application</span>
+            <i data-lucide="arrow-right" style="width: 18px; height: 18px;"></i>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<%- include('partials/footer') %>

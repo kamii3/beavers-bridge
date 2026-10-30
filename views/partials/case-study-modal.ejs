@@ -1,0 +1,42 @@
+  <!-- Case Study Modal -->
+  <div class="modal-overlay" id="caseStudyModal">
+    <div class="modal-box">
+      <button class="modal-close" id="closeModalBtn" aria-label="Close dialog">
+        <i data-lucide="x"></i>
+      </button>
+
+      <span class="project-category-tag" id="modalCategory" style="position: static; margin-bottom: 16px; display: inline-block;">Category</span>
+      <h2 id="modalTitle" style="font-size: 1.8rem; color: var(--forest-green); margin-bottom: 8px; line-height: 1.25;">Project Title</h2>
+      <p id="modalClient" style="color: var(--acorn-gold); font-weight: 700; font-size: 1rem; margin-bottom: 24px;">Client Name</p>
+
+      <div style="width: 100%; height: 260px; border-radius: var(--radius-md); overflow: hidden; margin-bottom: 24px; background: var(--bg-creamy); border: 1px solid var(--border-subtle);">
+        <img id="modalImg" src="/images/projects/remodel.jpg" alt="Case Study Image" style="width: 100%; height: 100%; object-fit: cover;">
+      </div>
+
+      <div class="project-metrics-box" style="margin-bottom: 24px;">
+        <i data-lucide="trending-up" style="color: var(--forest-green); width: 20px; height: 20px;"></i>
+        <span class="project-metrics-text" id="modalMetrics">Key Metrics</span>
+      </div>
+
+      <div style="margin-bottom: 20px;">
+        <h4 style="font-size: 1.05rem; color: var(--forest-green); margin-bottom: 6px;">The Challenge:</h4>
+        <p id="modalChallenge" style="color: var(--text-body); font-size: 0.98rem; line-height: 1.6;"></p>
+      </div>
+
+      <div style="margin-bottom: 28px;">
+        <h4 style="font-size: 1.05rem; color: var(--forest-green); margin-bottom: 6px;">The Beaver's Bridge Solution:</h4>
+        <p id="modalSolution" style="color: var(--text-body); font-size: 0.98rem; line-height: 1.6;"></p>
+      </div>
+
+      <div style="display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; border-top: 1px solid var(--border-subtle); padding-top: 20px;">
+        <a id="modalLiveLink" href="#" target="_blank" rel="noopener noreferrer" class="btn btn-outline-forest" style="font-size: 0.88rem; padding: 10px 22px;">
+          <span>Visit Client Website</span>
+          <i data-lucide="external-link" style="width: 15px; height: 15px;"></i>
+        </a>
+        <a href="/contact" class="btn btn-moss" style="font-size: 0.88rem; padding: 10px 22px;">
+          <span>Get Similar Results</span>
+          <i data-lucide="arrow-right" style="width: 15px; height: 15px;"></i>
+        </a>
+      </div>
+    </div>
+  </div>

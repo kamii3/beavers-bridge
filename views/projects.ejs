@@ -1,0 +1,97 @@
+<%- include('partials/header') %>
+
+<!-- PROJECTS HERO -->
+<section class="hero">
+  <div class="container hero-content" style="text-align: center; max-width: 800px; margin: 0 auto;">
+    <div class="badge-pill badge-gold">
+      <i data-lucide="folder-check" style="width: 14px; height: 14px;"></i>
+      <span>Proven Case Studies &amp; Client Wins</span>
+    </div>
+    <h1 class="hero-title" style="font-size: 2.7rem; margin-bottom: 12px;">
+      Our Work &amp; <br>
+      <span class="text-gold">Verified Case Studies</span>
+    </h1>
+    <p class="hero-subtitle" style="margin-bottom: 0;">
+      Explore how our organic community architecture has turned local home service contractors and regional brands into dominant market leaders without paying for advertising.
+    </p>
+  </div>
+</section>
+
+<!-- PROJECTS GALLERY -->
+<section class="section section-white">
+  <div class="container">
+    <div class="projects-header-row">
+      <div class="category-tabs">
+        <% categories.forEach((cat, i) => { %>
+          <button class="category-tab <%= i === 0 ? 'active' : '' %>" data-category="<%= cat %>">
+            <%= cat %>
+          </button>
+        <% }) %>
+      </div>
+    </div>
+
+    <div class="projects-grid">
+      <% projects.forEach(p => { %>
+        <div class="project-card"
+          data-id="<%= p.id %>"
+          data-title="<%= p.title %>"
+          data-client="<%= p.client %>"
+          data-category="<%= p.category %>"
+          data-summary="<%= p.summary %>"
+          data-challenge="<%= p.challenge %>"
+          data-solution="<%= p.solution %>"
+          data-metrics="<%= p.metrics %>"
+          data-image="<%= p.image_url %>"
+          data-live="<%= p.live_url %>">
+          
+          <div class="project-img-box">
+            <img src="<%= p.image_url %>" alt="<%= p.title %>" class="project-img">
+            <span class="project-category-tag"><%= p.category %></span>
+          </div>
+
+          <div class="project-content">
+            <h3 class="project-title"><%= p.title %></h3>
+            <div class="project-client"><%= p.client %></div>
+            <p class="project-summary"><%= p.summary %></p>
+
+            <div class="project-metrics-box">
+              <i data-lucide="trending-up" style="color: var(--forest-green); width: 18px; height: 18px; flex-shrink: 0;"></i>
+              <span class="project-metrics-text"><%= p.metrics %></span>
+            </div>
+
+            <div class="project-footer">
+              <button class="btn-case-study">
+                <span>View Full Case Study</span>
+                <i data-lucide="arrow-up-right" style="width: 14px; height: 14px;"></i>
+              </button>
+              <% if (p.live_url) { %>
+                <a href="<%= p.live_url %>" target="_blank" rel="noopener noreferrer" style="color: var(--text-muted);" aria-label="Visit client website">
+                  <i data-lucide="external-link" style="width: 15px; height: 15px;"></i>
+                </a>
+              <% } %>
+            </div>
+          </div>
+        </div>
+      <% }) %>
+    </div>
+  </div>
+</section>
+
+<!-- BOTTOM CTA -->
+<section class="section section-cream" style="text-align: center;">
+  <div class="container" style="max-width: 760px;">
+    <h2 style="font-size: 2.4rem; color: var(--forest-green); margin-bottom: 16px;">
+      Want Your Business Featured As Our Next Success Story?
+    </h2>
+    <p style="color: var(--text-body); font-size: 1.1rem; margin-bottom: 32px;">
+      We partner exclusively with one contractor per trade per geographic territory to prevent competing client interests. Secure your territory before your competitor does.
+    </p>
+    <a href="/contact" class="btn btn-moss" style="padding: 16px 36px; font-size: 1.05rem;">
+      <span>Lock In Your Territory</span>
+      <i data-lucide="arrow-right" style="width: 18px; height: 18px;"></i>
+    </a>
+  </div>
+</section>
+
+<%- include('partials/case-study-modal') %>
+<%- include('partials/footer') %>

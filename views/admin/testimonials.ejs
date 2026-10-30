@@ -1,0 +1,141 @@
+<%- include('sidebar') %>
+
+<div class="admin-table-container">
+  <div class="table-header-bar">
+    <div>
+      <div class="table-header-title">Client Testimonials &amp; Reviews</div>
+      <p style="color: var(--admin-muted); font-size: 0.85rem; margin-top: 2px;">
+        Manage client social proof, review quotes, and verified performance metrics.
+      </p>
+    </div>
+    <button class="btn btn-moss" id="addTestimonialBtn">
+      <i data-lucide="plus" style="width: 16px; height: 16px;"></i>
+      <span>Add Testimonial</span>
+    </button>
+  </div>
+
+  <table class="admin-table">
+    <thead>
+      <tr>
+        <th style="width: 60px;">Avatar</th>
+        <th>Client &amp; Company</th>
+        <th>Metric Callout</th>
+        <th>Rating</th>
+        <th>Quote Preview</th>
+        <th style="text-align: right;">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% (testimonials || []).forEach(t => { %>
+        <tr>
+          <td>
+            <img src="<%= t.avatar_url || '/images/avatars/justin.jpg' %>" alt="<%= t.client_name %>" style="width: 44px; height: 44px; border-radius: 50%; object-fit: cover; border: 2px solid var(--forest-green);">
+          </td>
+          <td>
+            <strong style="color: var(--text-primary); font-size: 0.95rem;"><%= t.client_name %></strong>
+            <div style="color: var(--admin-muted); font-size: 0.82rem;"><%= t.client_role %>, <%= t.client_company %></div>
+          </td>
+          <td>
+            <span style="color: var(--admin-gold); font-size: 0.82rem; font-weight: 700; background: rgba(156,114,33,0.12); padding: 4px 12px; border-radius: 99px;">
+              <%= t.highlight_metric %>
+            </span>
+          </td>
+          <td>
+            <div style="color: var(--admin-gold); display: flex; gap: 2px; font-size: 1.1rem;">
+              <% for(let i=0; i < t.rating; i++) { %>★<% } %>
+            </div>
+          </td>
+          <td style="color: var(--text-body); font-size: 0.88rem; max-width: 320px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+            "<%= t.quote %>"
+          </td>
+          <td style="text-align: right;">
+            <div class="action-btn-group" style="justify-content: flex-end;">
+              <button class="btn-icon btn-edit btn-edit-testimonial" data-testimonial='<%= JSON.stringify(t).replace(/'/g, "&apos;") %>' title="Edit Review">
+                <i data-lucide="edit-3" style="width: 14px; height: 14px;"></i>
+              </button>
+              <button class="btn-icon btn-danger btn-delete-testimonial" data-id="<%= t.id %>" data-name="<%= t.client_name %>" title="Delete Review">
+                <i data-lucide="trash-2" style="width: 14px; height: 14px;"></i>
+              </button>
+            </div>
+          </td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</div>
+
+<!-- Add / Edit Testimonial Modal -->
+<div class="admin-modal-overlay" id="testimonialModal">
+  <div class="admin-modal-card">
+    <button class="modal-close-btn" id="closeTestimonialModal" aria-label="Close modal">
+      <i data-lucide="x"></i>
+    </button>
+
+    <h2 class="admin-modal-title" id="testimonialModalTitle">Add Client Testimonial</h2>
+
+    <form id="testimonialForm" enctype="multipart/form-data" style="display: flex; flex-direction: column; gap: 16px;">
+      <input type="hidden" id="testimonialId" name="id">
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="testimonialName">Client Name *</label>
+          <input type="text" id="testimonialName" name="client_name" class="form-input" placeholder="e.g. Justin Nadeau" required>
+        </div>
+        <div class="form-group">
+          <label for="testimonialRole">Client Role / Title *</label>
+          <input type="text" id="testimonialRole" name="client_role" class="form-input" placeholder="e.g. Founder &amp; Owner" required>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="testimonialCompany">Company Name *</label>
+          <input type="text" id="testimonialCompany" name="client_company" class="form-input" placeholder="e.g. Second Chance Home Improvements" required>
+        </div>
+        <div class="form-group">
+          <label for="testimonialRating">Rating (1 to 5)</label>
+          <select id="testimonialRating" name="rating" class="form-select">
+            <option value="5" selected>5 Stars (★★★★★)</option>
+            <option value="4">4 Stars (★★★★)</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="testimonialMetric">Highlight Metric Badge *</label>
+        <input type="text" id="testimonialMetric" name="highlight_metric" class="form-input" placeholder="e.g. 163 Leads in 6 Months • 60% Close Rate" required>
+      </div>
+
+      <div class="form-group">
+        <label for="testimonialQuote">Testimonial Quote *</label>
+        <textarea id="testimonialQuote" name="quote" class="form-textarea" rows="3" placeholder="What did the client say about the organic community results?" required></textarea>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="testimonialAvatarFile">Upload Client Photo</label>
+          <input type="file" id="testimonialAvatarFile" name="avatar_file" class="form-input" accept="image/*">
+        </div>
+        <div class="form-group">
+          <label for="testimonialAvatarUrl">OR Avatar Image URL</label>
+          <input type="text" id="testimonialAvatarUrl" name="avatar_url" class="form-input" placeholder="/images/avatars/justin.jpg">
+        </div>
+      </div>
+
+      <div style="display: flex; align-items: center; gap: 10px; margin-top: 4px;">
+        <input type="checkbox" id="testimonialFeatured" name="featured" value="1" checked style="width: 18px; height: 18px; accent-color: var(--admin-primary);">
+        <label for="testimonialFeatured" style="font-size: 0.9rem; color: var(--text-primary); cursor: pointer; font-weight: 600;">Feature on Homepage Testimonials</label>
+      </div>
+
+      <div style="display: flex; justify-content: flex-end; gap: 12px; margin-top: 16px; border-top: 1px solid #e2e8f0; padding-top: 16px;">
+        <button type="button" class="btn btn-outline-forest" onclick="document.getElementById('testimonialModal').classList.remove('open')">Cancel</button>
+        <button type="submit" class="btn btn-moss">
+          <i data-lucide="check" style="width: 16px; height: 16px;"></i>
+          <span>Save Testimonial</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<%- include('footer') %>

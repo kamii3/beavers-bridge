@@ -1,0 +1,106 @@
+<%- include('sidebar') %>
+
+<!-- Metric Cards Grid -->
+<div class="stats-cards-grid">
+  <div class="stat-card">
+    <div class="stat-card-title">Total Projects</div>
+    <div class="stat-card-value"><%= stats.projects %></div>
+    <i data-lucide="folder-kanban" class="stat-card-icon" style="width: 44px; height: 44px;"></i>
+  </div>
+
+  <div class="stat-card">
+    <div class="stat-card-title">Testimonials</div>
+    <div class="stat-card-value"><%= stats.testimonials %></div>
+    <i data-lucide="message-square" class="stat-card-icon" style="width: 44px; height: 44px;"></i>
+  </div>
+
+  <div class="stat-card">
+    <div class="stat-card-title">Total Inbound Leads</div>
+    <div class="stat-card-value"><%= stats.leads %></div>
+    <i data-lucide="inbox" class="stat-card-icon" style="width: 44px; height: 44px;"></i>
+  </div>
+
+  <div class="stat-card" style="border-color: var(--admin-primary);">
+    <div class="stat-card-title" style="color: var(--admin-primary);">New Uncontacted Leads</div>
+    <div class="stat-card-value" style="color: var(--admin-primary);"><%= stats.newLeads %></div>
+    <i data-lucide="bell" class="stat-card-icon" style="width: 44px; height: 44px; color: var(--admin-primary); opacity: 0.5;"></i>
+  </div>
+</div>
+
+<!-- Quick Actions Banner (Clean Creamy Ivory) -->
+<div style="background: var(--bg-creamy); border: 1.5px solid var(--border-creamy); border-radius: 18px; padding: 24px; margin-bottom: 32px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px;">
+  <div>
+    <h3 style="font-size: 1.15rem; color: var(--forest-green); margin-bottom: 4px;">Quick Actions</h3>
+    <p style="color: var(--text-muted); font-size: 0.88rem;">Manage your portfolio, update reviews, and respond to incoming consultations.</p>
+  </div>
+  <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+    <a href="/admin/projects" class="btn btn-forest" style="font-size: 0.85rem; padding: 10px 18px;">
+      <i data-lucide="plus" style="width: 15px; height: 15px;"></i>
+      <span>Add New Project</span>
+    </a>
+    <a href="/admin/testimonials" class="btn btn-moss" style="font-size: 0.85rem; padding: 10px 18px;">
+      <i data-lucide="plus" style="width: 15px; height: 15px;"></i>
+      <span>Add Testimonial</span>
+    </a>
+    <a href="/admin/leads" class="btn btn-outline-forest" style="font-size: 0.85rem; padding: 10px 18px;">
+      <i data-lucide="inbox" style="width: 15px; height: 15px;"></i>
+      <span>Review All Leads</span>
+    </a>
+  </div>
+</div>
+
+<!-- Recent Inbound Leads Table -->
+<div class="admin-table-container" style="margin-bottom: 32px;">
+  <div class="table-header-bar">
+    <div class="table-header-title">Recent Inbound Consultation Leads</div>
+    <a href="/admin/leads" style="font-size: 0.88rem; color: var(--admin-primary); font-weight: 700;">View All Leads →</a>
+  </div>
+
+  <% if (recentLeads && recentLeads.length > 0) { %>
+    <table class="admin-table">
+      <thead>
+        <tr>
+          <th>Name / Company</th>
+          <th>Contact Info</th>
+          <th>Service / Budget</th>
+          <th>Status</th>
+          <th>Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% recentLeads.forEach(lead => { %>
+          <tr>
+            <td>
+              <strong style="color: var(--text-primary); font-size: 0.95rem;"><%= lead.name %></strong>
+              <% if (lead.company) { %>
+                <div style="color: var(--admin-gold); font-size: 0.82rem; font-weight: 700;"><%= lead.company %></div>
+              <% } %>
+            </td>
+            <td>
+              <div style="color: var(--forest-green); font-weight: 600;"><%= lead.email %></div>
+              <div style="color: var(--admin-muted); font-size: 0.82rem;"><%= lead.phone || 'No phone' %></div>
+            </td>
+            <td>
+              <div style="color: var(--admin-primary); font-weight: 700;"><%= lead.service_needed %></div>
+              <div style="color: var(--admin-muted); font-size: 0.82rem;"><%= lead.monthly_budget %></div>
+            </td>
+            <td>
+              <span class="status-badge status-<%= (lead.status || 'new').toLowerCase() %>">
+                <%= lead.status %>
+              </span>
+            </td>
+            <td style="color: var(--admin-muted); font-size: 0.85rem;">
+              <%= new Date(lead.created_at).toLocaleDateString() %>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  <% } else { %>
+    <div style="padding: 40px; text-align: center; color: var(--admin-muted);">
+      No lead submissions yet. Submissions from the website booking form will appear here.
+    </div>
+  <% } %>
+</div>
+
+<%- include('footer') %>

@@ -1,0 +1,107 @@
+<%- include('sidebar') %>
+
+<div class="admin-table-container">
+  <div class="table-header-bar">
+    <div>
+      <div class="table-header-title">Inbound Strategy Session Leads (<%= leads ? leads.length : 0 %>)</div>
+      <p style="color: var(--admin-muted); font-size: 0.85rem; margin-top: 2px;">
+        Leads submitted directly through your website consultation forms.
+      </p>
+    </div>
+
+    <!-- Filter by Status -->
+    <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+      <a href="/admin/leads?status=all" class="category-tab <%= statusFilter === 'all' ? 'active' : '' %>">All</a>
+      <a href="/admin/leads?status=New" class="category-tab <%= statusFilter === 'New' ? 'active' : '' %>">
+        New (<%= newCount %>)
+      </a>
+      <a href="/admin/leads?status=Contacted" class="category-tab <%= statusFilter === 'Contacted' ? 'active' : '' %>">Contacted</a>
+      <a href="/admin/leads?status=Qualified" class="category-tab <%= statusFilter === 'Qualified' ? 'active' : '' %>">Qualified</a>
+      <a href="/admin/leads?status=Closed" class="category-tab <%= statusFilter === 'Closed' ? 'active' : '' %>">Closed</a>
+      <a href="/admin/leads?status=Archived" class="category-tab <%= statusFilter === 'Archived' ? 'active' : '' %>">Archived</a>
+    </div>
+  </div>
+
+  <% if (leads && leads.length > 0) { %>
+    <table class="admin-table">
+      <thead>
+        <tr>
+          <th>Client Name</th>
+          <th>Contact Channels</th>
+          <th>Service / Budget</th>
+          <th>Territory &amp; Message</th>
+          <th>Status Update</th>
+          <th>Received</th>
+          <th style="text-align: right;">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% leads.forEach(lead => { %>
+          <tr>
+            <td>
+              <strong style="color: var(--text-primary); font-size: 0.95rem;"><%= lead.name %></strong>
+              <% if (lead.company) { %>
+                <div style="color: var(--admin-gold); font-size: 0.82rem; font-weight: 700;"><%= lead.company %></div>
+              <% } %>
+              <% if (lead.website) { %>
+                <a href="<%= lead.website %>" target="_blank" rel="noopener" style="font-size: 0.78rem; color: var(--admin-blue); text-decoration: underline;">
+                  Website ↗
+                </a>
+              <% } %>
+            </td>
+
+            <td>
+              <a href="mailto:<%= lead.email %>" style="color: var(--forest-green); font-size: 0.88rem; display: block; font-weight: 600;">
+                <%= lead.email %>
+              </a>
+              <% if (lead.phone) { %>
+                <a href="tel:<%= lead.phone %>" style="color: var(--admin-muted); font-size: 0.82rem; display: block;">
+                  <%= lead.phone %>
+                </a>
+              <% } %>
+            </td>
+
+            <td>
+              <div style="color: var(--forest-green); font-weight: 700; font-size: 0.88rem;"><%= lead.service_needed %></div>
+              <div style="color: var(--admin-muted); font-size: 0.82rem;"><%= lead.monthly_budget %></div>
+            </td>
+
+            <td style="max-width: 280px;">
+              <div style="color: var(--text-body); font-size: 0.88rem; line-height: 1.45;">
+                <%= lead.message || 'No additional notes.' %>
+              </div>
+            </td>
+
+            <td>
+              <select class="form-select lead-status-select" data-id="<%= lead.id %>" style="padding: 6px 12px; font-size: 0.8rem; width: auto; border-radius: 8px;">
+                <option value="New" <%= lead.status === 'New' ? 'selected' : '' %>>New</option>
+                <option value="Contacted" <%= lead.status === 'Contacted' ? 'selected' : '' %>>Contacted</option>
+                <option value="Qualified" <%= lead.status === 'Qualified' ? 'selected' : '' %>>Qualified</option>
+                <option value="Closed" <%= lead.status === 'Closed' ? 'selected' : '' %>>Closed (Won)</option>
+                <option value="Archived" <%= lead.status === 'Archived' ? 'selected' : '' %>>Archived</option>
+              </select>
+            </td>
+
+            <td style="color: var(--admin-muted); font-size: 0.82rem; white-space: nowrap;">
+              <%= new Date(lead.created_at).toLocaleDateString() %>
+            </td>
+
+            <td style="text-align: right;">
+              <button class="btn-icon btn-danger btn-delete-lead" data-id="<%= lead.id %>" data-name="<%= lead.name %>" title="Delete Inquiry">
+                <i data-lucide="trash-2" style="width: 14px; height: 14px;"></i>
+              </button>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  <% } else { %>
+    <div style="padding: 60px; text-align: center; color: var(--admin-muted);">
+      <i data-lucide="inbox" style="width: 48px; height: 48px; margin-bottom: 12px; opacity: 0.4;"></i>
+      <div style="font-size: 1.1rem; color: var(--text-primary); margin-bottom: 6px; font-weight: 700;">No leads found</div>
+      <p style="font-size: 0.9rem;">No consultation inquiries match the selected status filter.</p>
+    </div>
+  <% } %>
+</div>
+
+<%- include('footer') %>

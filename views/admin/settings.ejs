@@ -1,0 +1,450 @@
+<%- include('sidebar') %>
+
+<!-- Top Notification / Feedback Alert -->
+<div id="settingsAlert" class="settings-alert"></div>
+
+<!-- Settings Navigation Tabs -->
+<div class="settings-nav-tabs">
+  <button type="button" class="settings-tab-btn active" data-tab="tab-hero">
+    <i data-lucide="image" style="width: 16px; height: 16px;"></i>
+    <span>Hero Section &amp; Photo</span>
+  </button>
+  <button type="button" class="settings-tab-btn" data-tab="tab-badges">
+    <i data-lucide="layers" style="width: 16px; height: 16px;"></i>
+    <span>Hero Floating Badges</span>
+  </button>
+  <button type="button" class="settings-tab-btn" data-tab="tab-stats">
+    <i data-lucide="bar-chart-2" style="width: 16px; height: 16px;"></i>
+    <span>Trust Ticker Stats</span>
+  </button>
+  <button type="button" class="settings-tab-btn" data-tab="tab-contact">
+    <i data-lucide="mail" style="width: 16px; height: 16px;"></i>
+    <span>Contact &amp; Footer Info</span>
+  </button>
+  <button type="button" class="settings-tab-btn" data-tab="tab-security">
+    <i data-lucide="lock" style="width: 16px; height: 16px;"></i>
+    <span>Security &amp; Password</span>
+  </button>
+  <button type="button" class="settings-tab-btn" data-tab="tab-system">
+    <i data-lucide="cpu" style="width: 16px; height: 16px;"></i>
+    <span>Platform Status</span>
+  </button>
+</div>
+
+<!-- Unified Website Content Form (Hero, Badges, Stats, Contact) -->
+<form id="contentSettingsForm" enctype="multipart/form-data">
+
+  <!-- ========================================================================= -->
+  <!-- TAB 1: HERO SECTION & PHOTO -->
+  <!-- ========================================================================= -->
+  <div id="tab-hero" class="settings-tab-pane active">
+    
+    <!-- 1. Hero Artwork / Crest Photo Customizer -->
+    <div class="settings-card">
+      <div class="settings-card-header">
+        <div>
+          <h3 class="settings-card-title">Hero Section Visual / Crest Artwork</h3>
+          <p class="settings-card-desc">
+            Upload a custom photo or high-resolution graphic for the homepage hero showcase, or restore the official 3D Beaver's Bridge crest.
+          </p>
+        </div>
+        <button type="button" id="btnResetLogo" class="btn btn-outline-forest" style="font-size: 0.82rem; padding: 6px 14px;">
+          <i data-lucide="rotate-ccw" style="width: 14px; height: 14px;"></i>
+          <span>Use Default 3D Crest</span>
+        </button>
+      </div>
+
+      <div class="photo-uploader-grid">
+        <div class="photo-preview-wrapper">
+          <img id="heroPhotoPreview" src="<%= (settings && settings.hero_image_url) || '/images/logo.png' %>" alt="Hero Artwork Preview">
+          <span class="photo-preview-badge">Active Visual</span>
+        </div>
+
+        <div>
+          <div class="form-group" style="margin-bottom: 16px;">
+            <label for="heroImageFile" style="font-weight: 700;">Upload New Image File (JPG, PNG, WEBP)</label>
+            <input type="file" id="heroImageFile" name="hero_image_file" class="form-input" accept="image/*" style="padding: 10px;">
+            <small style="color: var(--admin-muted); display: block; margin-top: 4px;">
+              Max recommended file size: 5MB. A transparent circular PNG or high-res graphic looks sharpest.
+            </small>
+          </div>
+
+          <div class="form-group">
+            <label for="heroImageUrl" style="font-weight: 700;">Or Image URL / Relative Path</label>
+            <input type="text" id="heroImageUrl" name="hero_image_url" class="form-input" value="<%= (settings && settings.hero_image_url) || '/images/logo.png' %>" placeholder="/images/logo.png or https://...">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. Hero Text & Headings -->
+    <div class="settings-card">
+      <div class="settings-card-header">
+        <div>
+          <h3 class="settings-card-title">Hero Copy &amp; Main Headings</h3>
+          <p class="settings-card-desc">
+            Customize the primary hook, headline emphasis, subtext, and social proof trust bar.
+          </p>
+        </div>
+      </div>
+
+      <div class="form-group" style="margin-bottom: 20px;">
+        <label for="heroBadgeText" style="font-weight: 700;">Top Acorn-Gold Highlight Pill</label>
+        <input type="text" id="heroBadgeText" name="hero_badge_text" class="form-input" value="<%= (settings && settings.hero_badge_text) || '200+ Businesses Scaled & $12M+ Organic Revenue' %>" required>
+        <small style="color: var(--admin-muted);">Appears above the main headline with the sparkles icon.</small>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
+        <div class="form-group">
+          <label for="heroTitlePrefix" style="font-weight: 700;">Headline Prefix</label>
+          <input type="text" id="heroTitlePrefix" name="hero_title_prefix" class="form-input" value="<%= (settings && settings.hero_title_prefix) || 'Turn Community Trust into Your' %>" required>
+          <small style="color: var(--admin-muted);">First line of the H1 hero title.</small>
+        </div>
+
+        <div class="form-group">
+          <label for="heroTitleHighlight" style="font-weight: 700;">Headline Highlighted Text (Gold Accent)</label>
+          <input type="text" id="heroTitleHighlight" name="hero_title_highlight" class="form-input" value="<%= (settings && settings.hero_title_highlight) || 'Greatest Growth Engine' %>" required>
+          <small style="color: var(--admin-muted);">Styled in radiant Acorn Gold typography.</small>
+        </div>
+      </div>
+
+      <div class="form-group" style="margin-bottom: 20px;">
+        <label for="heroSubtitle" style="font-weight: 700;">Hero Strategic Narrative / Subtitle</label>
+        <textarea id="heroSubtitle" name="hero_subtitle" class="form-textarea" rows="3" required><%= (settings && settings.hero_subtitle) || "Unlock a predictable stream of qualified, high-ticket organic leads and build an undeniable local authority without spending a dime on ads. Inspired by nature's master engineer, we bridge your craftsmanship directly with motivated local homeowners." %></textarea>
+      </div>
+
+      <div class="form-group" style="margin-bottom: 20px;">
+        <label for="heroRatingText" style="font-weight: 700;">Social Proof Rating Micro-Bar Text</label>
+        <input type="text" id="heroRatingText" name="hero_rating_text" class="form-input" value="<%= (settings && settings.hero_rating_text) || 'Rated 4.9/5 by 200+ Home Service Contractors' %>" required>
+      </div>
+
+      <!-- Action Buttons -->
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px;">
+          <h4 style="font-size: 0.92rem; color: var(--forest-green); font-weight: 700; margin-bottom: 12px;">Primary CTA Button</h4>
+          <div class="form-group" style="margin-bottom: 10px;">
+            <label for="heroCtaPrimaryText">Button Label</label>
+            <input type="text" id="heroCtaPrimaryText" name="hero_cta_primary_text" class="form-input" value="<%= (settings && settings.hero_cta_primary_text) || 'Get Your Free Strategy Session' %>">
+          </div>
+          <div class="form-group">
+            <label for="heroCtaPrimaryLink">Target Link URL</label>
+            <input type="text" id="heroCtaPrimaryLink" name="hero_cta_primary_link" class="form-input" value="<%= (settings && settings.hero_cta_primary_link) || '/contact' %>">
+          </div>
+        </div>
+
+        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px;">
+          <h4 style="font-size: 0.92rem; color: var(--forest-green); font-weight: 700; margin-bottom: 12px;">Secondary CTA Button</h4>
+          <div class="form-group" style="margin-bottom: 10px;">
+            <label for="heroCtaSecondaryText">Button Label</label>
+            <input type="text" id="heroCtaSecondaryText" name="hero_cta_secondary_text" class="form-input" value="<%= (settings && settings.hero_cta_secondary_text) || 'Explore Proven Work' %>">
+          </div>
+          <div class="form-group">
+            <label for="heroCtaSecondaryLink">Target Link URL</label>
+            <input type="text" id="heroCtaSecondaryLink" name="hero_cta_secondary_link" class="form-input" value="<%= (settings && settings.hero_cta_secondary_link) || '/projects' %>">
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top: 24px; display: flex; justify-content: flex-end;">
+        <button type="submit" class="btn btn-moss btn-save-content">
+          <i data-lucide="save" style="width: 17px; height: 17px;"></i>
+          <span>Save Hero Settings</span>
+        </button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- TAB 2: FLOATING PERFORMANCE BADGES -->
+  <!-- ========================================================================= -->
+  <div id="tab-badges" class="settings-tab-pane">
+    <div class="settings-card">
+      <div class="settings-card-header">
+        <div>
+          <h3 class="settings-card-title">Hero Floating Metric Badges</h3>
+          <p class="settings-card-desc">
+            These three glassmorphic metric cards float around your 3D Hero Crest on desktop and tablet screens to showcase undeniable real-world impact.
+          </p>
+        </div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 24px;">
+        <!-- Badge 1: Top Right -->
+        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-top: 4px solid var(--forest-green); border-radius: 14px; padding: 20px;">
+          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 14px;">
+            <div style="width: 28px; height: 28px; border-radius: 6px; background: rgba(1, 81, 18, 0.12); color: var(--forest-green); display: flex; align-items: center; justify-content: center;">
+              <i data-lucide="trending-up" style="width: 16px; height: 16px;"></i>
+            </div>
+            <strong style="color: var(--forest-green); font-size: 0.95rem;">Badge 1 (Top-Right)</strong>
+          </div>
+          <div class="form-group" style="margin-bottom: 12px;">
+            <label for="floatBadge1Title">Primary Metric / Title</label>
+            <input type="text" id="floatBadge1Title" name="float_badge_1_title" class="form-input" value="<%= (settings && settings.float_badge_1_title) || '+163 Qualified Leads' %>" required>
+          </div>
+          <div class="form-group">
+            <label for="floatBadge1Sub">Supporting Subtext</label>
+            <input type="text" id="floatBadge1Sub" name="float_badge_1_sub" class="form-input" value="<%= (settings && settings.float_badge_1_sub) || '$420,000+ In Pipeline' %>" required>
+          </div>
+        </div>
+
+        <!-- Badge 2: Bottom Left -->
+        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-top: 4px solid var(--acorn-gold); border-radius: 14px; padding: 20px;">
+          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 14px;">
+            <div style="width: 28px; height: 28px; border-radius: 6px; background: rgba(156, 114, 33, 0.15); color: var(--acorn-gold); display: flex; align-items: center; justify-content: center;">
+              <i data-lucide="target" style="width: 16px; height: 16px;"></i>
+            </div>
+            <strong style="color: var(--acorn-gold); font-size: 0.95rem;">Badge 2 (Bottom-Left)</strong>
+          </div>
+          <div class="form-group" style="margin-bottom: 12px;">
+            <label for="floatBadge2Title">Primary Metric / Title</label>
+            <input type="text" id="floatBadge2Title" name="float_badge_2_title" class="form-input" value="<%= (settings && settings.float_badge_2_title) || '60% Booking Rate' %>" required>
+          </div>
+          <div class="form-group">
+            <label for="floatBadge2Sub">Supporting Subtext</label>
+            <input type="text" id="floatBadge2Sub" name="float_badge_2_sub" class="form-input" value="<%= (settings && settings.float_badge_2_sub) || '$240 Avg Customer Acq' %>" required>
+          </div>
+        </div>
+
+        <!-- Badge 3: Bottom Right -->
+        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-top: 4px solid var(--river-blue); border-radius: 14px; padding: 20px;">
+          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 14px;">
+            <div style="width: 28px; height: 28px; border-radius: 6px; background: rgba(96, 141, 154, 0.2); color: var(--river-blue); display: flex; align-items: center; justify-content: center;">
+              <i data-lucide="shield-check" style="width: 16px; height: 16px;"></i>
+            </div>
+            <strong style="color: var(--river-blue); font-size: 0.95rem;">Badge 3 (Bottom-Right)</strong>
+          </div>
+          <div class="form-group" style="margin-bottom: 12px;">
+            <label for="floatBadge3Title">Primary Metric / Title</label>
+            <input type="text" id="floatBadge3Title" name="float_badge_3_title" class="form-input" value="<%= (settings && settings.float_badge_3_title) || '100% Organic Trust' %>" required>
+          </div>
+          <div class="form-group">
+            <label for="floatBadge3Sub">Supporting Subtext</label>
+            <input type="text" id="floatBadge3Sub" name="float_badge_3_sub" class="form-input" value="<%= (settings && settings.float_badge_3_sub) || '$0 In Ad Spend' %>" required>
+          </div>
+        </div>
+      </div>
+
+      <div style="display: flex; justify-content: flex-end;">
+        <button type="submit" class="btn btn-moss btn-save-content">
+          <i data-lucide="save" style="width: 17px; height: 17px;"></i>
+          <span>Save Floating Badges</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- TAB 3: TRUST TICKER STATS -->
+  <!-- ========================================================================= -->
+  <div id="tab-stats" class="settings-tab-pane">
+    <div class="settings-card">
+      <div class="settings-card-header">
+        <div>
+          <h3 class="settings-card-title">Homepage Trust &amp; Impact Stats Ticker</h3>
+          <p class="settings-card-desc">
+            The prominent metric ribbon directly below the hero section demonstrating scale and ROI.
+          </p>
+        </div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-bottom: 24px;">
+        <!-- Stat 1 -->
+        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px;">
+          <h4 style="font-size: 0.9rem; color: var(--forest-green); margin-bottom: 12px;">Statistic #1</h4>
+          <div class="form-group" style="margin-bottom: 10px;">
+            <label for="stat1Num">Number / Figure (e.g. 30,000+)</label>
+            <input type="text" id="stat1Num" name="stat_1_num" class="form-input" value="<%= (settings && settings.stat_1_num) || '30,000+' %>" required>
+          </div>
+          <div class="form-group">
+            <label for="stat1Label">Description Label</label>
+            <input type="text" id="stat1Label" name="stat_1_label" class="form-input" value="<%= (settings && settings.stat_1_label) || 'Monthly Organic Impressions' %>" required>
+          </div>
+        </div>
+
+        <!-- Stat 2 -->
+        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px;">
+          <h4 style="font-size: 0.9rem; color: var(--forest-green); margin-bottom: 12px;">Statistic #2</h4>
+          <div class="form-group" style="margin-bottom: 10px;">
+            <label for="stat2Num">Number / Figure (e.g. 4.5+)</label>
+            <input type="text" id="stat2Num" name="stat_2_num" class="form-input" value="<%= (settings && settings.stat_2_num) || '4.5+' %>" required>
+          </div>
+          <div class="form-group">
+            <label for="stat2Label">Description Label</label>
+            <input type="text" id="stat2Label" name="stat_2_label" class="form-input" value="<%= (settings && settings.stat_2_label) || 'Weekly Qualified Inbound Leads' %>" required>
+          </div>
+        </div>
+
+        <!-- Stat 3 -->
+        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px;">
+          <h4 style="font-size: 0.9rem; color: var(--forest-green); margin-bottom: 12px;">Statistic #3</h4>
+          <div class="form-group" style="margin-bottom: 10px;">
+            <label for="stat3Num">Number / Figure (e.g. $240)</label>
+            <input type="text" id="stat3Num" name="stat_3_num" class="form-input" value="<%= (settings && settings.stat_3_num) || '$240' %>" required>
+          </div>
+          <div class="form-group">
+            <label for="stat3Label">Description Label</label>
+            <input type="text" id="stat3Label" name="stat_3_label" class="form-input" value="<%= (settings && settings.stat_3_label) || 'Average Customer Acquisition Cost' %>" required>
+          </div>
+        </div>
+
+        <!-- Stat 4 -->
+        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px;">
+          <h4 style="font-size: 0.9rem; color: var(--forest-green); margin-bottom: 12px;">Statistic #4</h4>
+          <div class="form-group" style="margin-bottom: 10px;">
+            <label for="stat4Num">Number / Figure (e.g. $12.4M+)</label>
+            <input type="text" id="stat4Num" name="stat_4_num" class="form-input" value="<%= (settings && settings.stat_4_num) || '$12.4M+' %>" required>
+          </div>
+          <div class="form-group">
+            <label for="stat4Label">Description Label</label>
+            <input type="text" id="stat4Label" name="stat_4_label" class="form-input" value="<%= (settings && settings.stat_4_label) || 'Verified Client Revenue Generated' %>" required>
+          </div>
+        </div>
+      </div>
+
+      <div style="display: flex; justify-content: flex-end;">
+        <button type="submit" class="btn btn-moss btn-save-content">
+          <i data-lucide="save" style="width: 17px; height: 17px;"></i>
+          <span>Save Trust Stats</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- TAB 4: CONTACT & FOOTER INFO -->
+  <!-- ========================================================================= -->
+  <div id="tab-contact" class="settings-tab-pane">
+    <div class="settings-card">
+      <div class="settings-card-header">
+        <div>
+          <h3 class="settings-card-title">Company Contact &amp; Footer Information</h3>
+          <p class="settings-card-desc">
+            Direct business communication channels and global footer branding.
+          </p>
+        </div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
+        <div class="form-group">
+          <label for="contactEmail" style="font-weight: 700;">Direct Inquiries Email</label>
+          <input type="email" id="contactEmail" name="contact_email" class="form-input" value="<%= (settings && settings.contact_email) || 'hello@beaversbridge.com' %>" required>
+        </div>
+
+        <div class="form-group">
+          <label for="contactPhone" style="font-weight: 700;">Direct Phone Number</label>
+          <input type="text" id="contactPhone" name="contact_phone" class="form-input" value="<%= (settings && settings.contact_phone) || '(555) 000-0000' %>">
+        </div>
+      </div>
+
+      <div class="form-group" style="margin-bottom: 20px;">
+        <label for="contactResponseTime" style="font-weight: 700;">Response SLA Notice</label>
+        <input type="text" id="contactResponseTime" name="contact_response_time" class="form-input" value="<%= (settings && settings.contact_response_time) || 'Average Response Time: Under 4 Hours (Mon–Fri)' %>">
+        <small style="color: var(--admin-muted);">Shown on the booking / contact consultation page.</small>
+      </div>
+
+      <div class="form-group" style="margin-bottom: 24px;">
+        <label for="footerTagline" style="font-weight: 700;">Global Footer Mission Tagline</label>
+        <textarea id="footerTagline" name="footer_tagline" class="form-textarea" rows="3" required><%= (settings && settings.footer_tagline) || 'We build enduring digital bridges between high-craft businesses and their local communities. Turning authentic community trust into an unstoppable stream of qualified organic leads.' %></textarea>
+      </div>
+
+      <div style="display: flex; justify-content: flex-end;">
+        <button type="submit" class="btn btn-moss btn-save-content">
+          <i data-lucide="save" style="width: 17px; height: 17px;"></i>
+          <span>Save Contact &amp; Footer Info</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+</form>
+
+<!-- ========================================================================= -->
+<!-- TAB 5: SECURITY & CREDENTIALS -->
+<!-- ========================================================================= -->
+<div id="tab-security" class="settings-tab-pane">
+  <div class="settings-card" style="max-width: 650px;">
+    <div class="settings-card-header">
+      <div>
+        <h3 class="settings-card-title">Security &amp; Administrator Password</h3>
+        <p class="settings-card-desc">
+          Update your portal credentials to ensure unauthorized parties cannot modify your website.
+        </p>
+      </div>
+    </div>
+
+    <form id="passwordForm" style="display: flex; flex-direction: column; gap: 16px;">
+      <div class="form-group">
+        <label for="currentPassword">Current Password *</label>
+        <input type="password" id="currentPassword" name="current_password" class="form-input" placeholder="••••••••••••" required>
+      </div>
+
+      <div class="form-group">
+        <label for="newPassword">New Password *</label>
+        <input type="password" id="newPassword" name="new_password" class="form-input" placeholder="Enter new strong password" required minlength="6">
+      </div>
+
+      <div class="form-group">
+        <label for="confirmPassword">Confirm New Password *</label>
+        <input type="password" id="confirmPassword" name="confirm_password" class="form-input" placeholder="Repeat new password" required minlength="6">
+      </div>
+
+      <div style="margin-top: 8px;">
+        <button type="submit" class="btn btn-moss">
+          <i data-lucide="shield-check" style="width: 16px; height: 16px;"></i>
+          <span>Update Password</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ========================================================================= -->
+<!-- TAB 6: PLATFORM STATUS & DIAGNOSTICS -->
+<!-- ========================================================================= -->
+<div id="tab-system" class="settings-tab-pane">
+  <div class="settings-card" style="max-width: 650px;">
+    <div class="settings-card-header">
+      <div>
+        <h3 class="settings-card-title">Platform Runtime &amp; Environment Diagnostics</h3>
+        <p class="settings-card-desc">
+          High-level system health metrics and local database diagnostics.
+        </p>
+      </div>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 16px;">
+      <div style="display: flex; justify-content: space-between; padding-bottom: 12px; border-bottom: 1px solid #f1f5f9; font-size: 0.92rem;">
+        <span style="color: var(--admin-muted);">Application Identity:</span>
+        <strong style="color: var(--forest-green); font-weight: 700;">Beaver's Bridge (Node.js + Express)</strong>
+      </div>
+
+      <div style="display: flex; justify-content: space-between; padding-bottom: 12px; border-bottom: 1px solid #f1f5f9; font-size: 0.92rem;">
+        <span style="color: var(--admin-muted);">Node.js Runtime:</span>
+        <strong style="color: var(--forest-green);"><%= nodeVersion %></strong>
+      </div>
+
+      <div style="display: flex; justify-content: space-between; padding-bottom: 12px; border-bottom: 1px solid #f1f5f9; font-size: 0.92rem;">
+        <span style="color: var(--admin-muted);">Database Engine:</span>
+        <strong style="color: var(--text-primary);">SQLite 3 (WAL mode)</strong>
+      </div>
+
+      <div style="display: flex; justify-content: space-between; padding-bottom: 12px; border-bottom: 1px solid #f1f5f9; font-size: 0.92rem;">
+        <span style="color: var(--admin-muted);">Host Platform:</span>
+        <strong style="color: var(--text-primary);"><%= platform %></strong>
+      </div>
+
+      <div style="display: flex; justify-content: space-between; padding-bottom: 12px; border-bottom: 1px solid #f1f5f9; font-size: 0.92rem;">
+        <span style="color: var(--admin-muted);">Server Uptime:</span>
+        <strong style="color: var(--admin-gold);"><%= uptime %> seconds</strong>
+      </div>
+
+      <div style="display: flex; justify-content: space-between; font-size: 0.92rem;">
+        <span style="color: var(--admin-muted);">Uploads Directory:</span>
+        <strong style="color: var(--forest-green);">/public/uploads/</strong>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include('footer') %>

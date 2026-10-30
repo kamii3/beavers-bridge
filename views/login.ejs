@@ -1,0 +1,47 @@
+<%- include('partials/header') %>
+
+<section class="section section-cream" style="min-height: 75vh; display: flex; align-items: center;">
+  <div class="container" style="max-width: 480px;">
+    <div style="background: var(--bg-white); border: 2px solid var(--forest-green); border-radius: var(--radius-lg); padding: 44px; box-shadow: var(--shadow-lg); text-align: center;">
+      
+      <div style="display: flex; justify-content: center; margin-bottom: 20px;">
+        <img src="/images/logo.png" alt="Beaver's Bridge" style="width: 76px; height: 76px; border-radius: 50%; border: 2.5px solid var(--acorn-gold); box-shadow: var(--shadow-sm);">
+      </div>
+
+      <h1 style="font-size: 2rem; color: var(--forest-green); margin-bottom: 8px;">Admin Portal</h1>
+      <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 28px;">
+        Sign in to manage projects, case studies, client reviews, and inbound leads.
+      </p>
+
+      <% if (typeof error !== 'undefined' && error) { %>
+        <div style="background: #fee2e2; border: 1px solid #ef4444; color: #b91c1c; padding: 12px; border-radius: var(--radius-md); font-size: 0.88rem; margin-bottom: 20px; font-weight: 600;">
+          <%= error %>
+        </div>
+      <% } %>
+
+      <form action="/login" method="POST" style="display: flex; flex-direction: column; gap: 16px; text-align: left;">
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input type="text" id="username" name="username" class="form-input" placeholder="admin" required autofocus>
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" class="form-input" placeholder="••••••••••••" required>
+        </div>
+
+        <button type="submit" class="btn btn-moss" style="margin-top: 10px; width: 100%; padding: 15px; font-size: 1rem;">
+          <span>Sign In to Dashboard</span>
+          <i data-lucide="log-in" style="width: 16px; height: 16px;"></i>
+        </button>
+      </form>
+
+      <div style="margin-top: 24px; padding-top: 18px; border-top: 1px solid var(--border-subtle); font-size: 0.85rem; color: var(--text-muted); text-align: center;">
+        <i data-lucide="shield-check" style="width: 14px; height: 14px; vertical-align: middle; margin-right: 4px; color: var(--forest-green);"></i>
+        Authorized administrator access only. Credentials managed via system configuration.
+      </div>
+    </div>
+  </div>
+</section>
+
+<%- include('partials/footer') %>

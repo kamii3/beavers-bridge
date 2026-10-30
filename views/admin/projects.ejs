@@ -1,0 +1,165 @@
+<%- include('sidebar') %>
+
+<div class="admin-table-container">
+  <div class="table-header-bar">
+    <div>
+      <div class="table-header-title">Portfolio Projects &amp; Case Studies</div>
+      <p style="color: var(--admin-muted); font-size: 0.85rem; margin-top: 2px;">
+        Add, edit, or delete case studies shown across your website and portfolio.
+      </p>
+    </div>
+    <button class="btn btn-moss" id="addProjectBtn">
+      <i data-lucide="plus" style="width: 16px; height: 16px;"></i>
+      <span>Add New Project</span>
+    </button>
+  </div>
+
+  <table class="admin-table">
+    <thead>
+      <tr>
+        <th style="width: 80px;">Preview</th>
+        <th>Title / Client</th>
+        <th>Category</th>
+        <th>Key Metrics</th>
+        <th>Featured</th>
+        <th style="text-align: right;">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% (projects || []).forEach(p => { %>
+        <tr>
+          <td>
+            <img src="<%= p.image_url %>" alt="<%= p.title %>" style="width: 64px; height: 42px; object-fit: cover; border-radius: 6px; border: 1px solid var(--border-subtle);">
+          </td>
+          <td>
+            <strong style="color: var(--text-primary); font-size: 0.95rem;"><%= p.title %></strong>
+            <div style="color: var(--admin-gold); font-size: 0.82rem; font-weight: 700;"><%= p.client %></div>
+          </td>
+          <td>
+            <span style="background: rgba(1, 81, 18, 0.08); color: var(--forest-green); padding: 4px 10px; border-radius: 99px; font-size: 0.8rem; font-weight: 700;">
+              <%= p.category %>
+            </span>
+          </td>
+          <td style="color: var(--forest-green); font-weight: 800; font-size: 0.88rem;">
+            <%= p.metrics %>
+          </td>
+          <td>
+            <% if (p.featured) { %>
+              <span style="color: var(--forest-green); font-weight: 800; font-size: 0.82rem;">✓ Yes</span>
+            <% } else { %>
+              <span style="color: var(--admin-muted); font-size: 0.82rem;">No</span>
+            <% } %>
+          </td>
+          <td style="text-align: right;">
+            <div class="action-btn-group" style="justify-content: flex-end;">
+              <button class="btn-icon btn-edit btn-edit-project" data-project='<%= JSON.stringify(p).replace(/'/g, "&apos;") %>' title="Edit Project">
+                <i data-lucide="edit-3" style="width: 14px; height: 14px;"></i>
+              </button>
+              <button class="btn-icon btn-danger btn-delete-project" data-id="<%= p.id %>" data-title="<%= p.title %>" title="Delete Project">
+                <i data-lucide="trash-2" style="width: 14px; height: 14px;"></i>
+              </button>
+            </div>
+          </td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</div>
+
+<!-- Add / Edit Project Modal -->
+<div class="admin-modal-overlay" id="projectModal">
+  <div class="admin-modal-card">
+    <button class="modal-close-btn" id="closeProjectModal" aria-label="Close modal">
+      <i data-lucide="x"></i>
+    </button>
+
+    <h2 class="admin-modal-title" id="projectModalTitle">Add New Project Case Study</h2>
+
+    <form id="projectForm" enctype="multipart/form-data" style="display: flex; flex-direction: column; gap: 16px;">
+      <input type="hidden" id="projectId" name="id">
+
+      <div class="form-group">
+        <label for="projectTitle">Project / Case Study Headline *</label>
+        <input type="text" id="projectTitle" name="title" class="form-input" placeholder="e.g. Second Chance Home Remodeling: Hyper-Local Community Domination" required>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="projectClient">Client / Business Name *</label>
+          <input type="text" id="projectClient" name="client" class="form-input" placeholder="e.g. Second Chance Remodeling" required>
+        </div>
+        <div class="form-group">
+          <label for="projectCategory">Category / Industry *</label>
+          <select id="projectCategory" name="category" class="form-select" required>
+            <option value="Home Remodeling">Home Remodeling</option>
+            <option value="Garage &amp; Coatings">Garage &amp; Coatings</option>
+            <option value="Roofing &amp; Exteriors">Roofing &amp; Exteriors</option>
+            <option value="Home Organization">Home Organization</option>
+            <option value="HVAC &amp; Plumbing">HVAC &amp; Plumbing</option>
+            <option value="Renewables">Renewables &amp; Solar</option>
+            <option value="Professional Services">Professional Services</option>
+            <option value="Commercial">Commercial</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="projectMetrics">Key Highlight Metrics *</label>
+        <input type="text" id="projectMetrics" name="metrics" class="form-input" placeholder="e.g. 163 Leads | $420,000 Generated | 60% Close Rate" required>
+      </div>
+
+      <div class="form-group">
+        <label for="projectSummary">Short Summary (shown on cards) *</label>
+        <textarea id="projectSummary" name="summary" class="form-textarea" rows="2" placeholder="Brief 1-2 sentence overview of results achieved..." required></textarea>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="projectChallenge">The Client's Challenge</label>
+          <textarea id="projectChallenge" name="challenge" class="form-textarea" rows="3" placeholder="What problems did they face before Beaver's Bridge? (e.g. High PPC costs, low lead quality)"></textarea>
+        </div>
+        <div class="form-group">
+          <label for="projectSolution">The Beaver's Bridge Strategy</label>
+          <textarea id="projectSolution" name="solution" class="form-textarea" rows="3" placeholder="What community strategy and content angles were deployed?"></textarea>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="projectImageFile">Upload Image File</label>
+          <input type="file" id="projectImageFile" name="image_file" class="form-input" accept="image/*">
+        </div>
+        <div class="form-group">
+          <label for="projectImageUrl">OR Image URL / Path</label>
+          <input type="text" id="projectImageUrl" name="image_url" class="form-input" placeholder="/images/projects/remodel.jpg">
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="projectLiveUrl">Client Website URL (Optional)</label>
+          <input type="url" id="projectLiveUrl" name="live_url" class="form-input" placeholder="https://clientwebsite.com">
+        </div>
+        <div class="form-group">
+          <label for="projectSortOrder">Sort Order (0 = highest)</label>
+          <input type="number" id="projectSortOrder" name="sort_order" class="form-input" value="0">
+        </div>
+      </div>
+
+      <div style="display: flex; align-items: center; gap: 10px; margin-top: 4px;">
+        <input type="checkbox" id="projectFeatured" name="featured" value="1" checked style="width: 18px; height: 18px; accent-color: var(--admin-primary);">
+        <label for="projectFeatured" style="font-size: 0.9rem; color: var(--text-primary); cursor: pointer; font-weight: 600;">Feature on Homepage Showcase</label>
+      </div>
+
+      <div style="display: flex; justify-content: flex-end; gap: 12px; margin-top: 16px; border-top: 1px solid #e2e8f0; padding-top: 16px;">
+        <button type="button" class="btn btn-outline-forest" onclick="document.getElementById('projectModal').classList.remove('open')">Cancel</button>
+        <button type="submit" class="btn btn-moss">
+          <i data-lucide="check" style="width: 16px; height: 16px;"></i>
+          <span>Save Case Study</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<%- include('footer') %>

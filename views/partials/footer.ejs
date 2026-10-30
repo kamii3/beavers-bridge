@@ -1,0 +1,88 @@
+  <!-- Footer: Beaver Brown (#613A17) Background with Creamy Ivory & Gold Typography -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="/" class="brand-logo" style="margin-bottom: 14px;">
+            <img src="/images/logo.png" alt="Beaver's Bridge Emblem" class="brand-emblem" style="border-color: var(--acorn-gold);">
+            <span class="brand-name" style="font-size: 1.6rem; color: #ffffff;">Beaver's Bridge</span>
+          </a>
+          <p>
+            <%= (settings && settings.footer_tagline) || 'We build enduring digital bridges between high-craft businesses and their local communities. Turning authentic community trust into an unstoppable stream of qualified organic leads.' %>
+          </p>
+          <div style="display: flex; gap: 14px; margin-top: 20px;">
+            <a href="https://facebook.com" target="_blank" rel="noopener" style="color: var(--creamy-ivory);" aria-label="Facebook">
+              <i data-lucide="facebook"></i>
+            </a>
+            <a href="https://instagram.com" target="_blank" rel="noopener" style="color: var(--creamy-ivory);" aria-label="Instagram">
+              <i data-lucide="instagram"></i>
+            </a>
+            <a href="https://linkedin.com" target="_blank" rel="noopener" style="color: var(--creamy-ivory);" aria-label="LinkedIn">
+              <i data-lucide="linkedin"></i>
+            </a>
+          </div>
+        </div>
+
+        <div class="footer-col">
+          <h4>Navigation</h4>
+          <ul class="footer-links">
+            <li><a href="/">Home</a></li>
+            <li><a href="/services">Services &amp; Systems</a></li>
+            <li><a href="/projects">Case Studies</a></li>
+            <li><a href="/about">About Us</a></li>
+            <li><a href="/contact">Book Consultation</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Core Services</h4>
+          <ul class="footer-links">
+            <li><a href="/services">Strategic Group Selection</a></li>
+            <li><a href="/services">Authority Storytelling</a></li>
+            <li><a href="/services">Community Nurturing</a></li>
+            <li><a href="/services">Organic Lead Harvesting</a></li>
+            <li><a href="/services">Sentiment Intelligence</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Direct Inquiries</h4>
+          <p style="color: #e5dcc3; font-size: 0.9rem; margin-bottom: 12px;">
+            Ready to break free from volatile ad costs?
+          </p>
+          <p style="color: var(--acorn-gold); font-weight: 700; font-size: 1.05rem; margin-bottom: 18px;">
+            <%= (settings && settings.contact_email) || 'hello@beaversbridge.com' %>
+          </p>
+          <a href="/contact" class="btn btn-creamy" style="font-size: 0.85rem; padding: 10px 20px; width: 100%;">
+            <span>Schedule Session</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>
+          © <%= year %> Beaver's Bridge. All rights reserved. <span style="color: var(--acorn-gold);">www.beaversbridge.com</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 20px;">
+          <a href="/about" style="color: #d1c7ad;">Privacy Policy</a>
+          <a href="/about" style="color: #d1c7ad;">Terms of Service</a>
+          <% if (isAdmin) { %>
+            <a href="/admin" class="admin-portal-link">
+              <i data-lucide="shield" style="width: 14px; height: 14px;"></i>
+              <span>Admin Dashboard</span>
+            </a>
+          <% } else { %>
+            <a href="/login" class="admin-portal-link">
+              <i data-lucide="lock" style="width: 14px; height: 14px;"></i>
+              <span>Admin Portal</span>
+            </a>
+          <% } %>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="/js/main.js"></script>
+</body>
+</html>
