@@ -255,25 +255,12 @@ db.exec(`
 const adminCount = db.prepare('SELECT COUNT(*) as count FROM admin_users').get().count;
 if (adminCount === 0) {
   const initialAdminUser = process.env.ADMIN_USERNAME || 'admin';
-  const initialAdminPass = process.env.ADMIN_PASSWORD;
+  const initialAdminPass = process.env.ADMIN_PASSWORD || 'beaver2026!';
 
-  if (initialAdminPass) {
-    const salt = bcrypt.genSaltSync(10);
-    const hash = bcrypt.hashSync(initialAdminPass, salt);
-    db.prepare('INSERT INTO admin_users (username, password_hash) VALUES (?, ?)').run(initialAdminUser, hash);
-    console.log(`[DB] Created initial administrator account from environment: ${initialAdminUser}`);
-  } else {
-    // Generate a secure one-time initial setup password
-    const tempPassword = crypto.randomBytes(6).toString('hex') + '!Bb';
-    const salt = bcrypt.genSaltSync(10);
-    const hash = bcrypt.hashSync(tempPassword, salt);
-    db.prepare('INSERT INTO admin_users (username, password_hash) VALUES (?, ?)').run(initialAdminUser, hash);
-    console.log('\n=======================================================');
-    console.log(`[DB] Initial administrator account created: ${initialAdminUser}`);
-    console.log(`[DB] Temporary initial setup password: ${tempPassword}`);
-    console.log('[DB] Set ADMIN_PASSWORD in your .env file or update password in /admin/settings');
-    console.log('=======================================================\n');
-  }
+  const salt = bcrypt.genSaltSync(10);
+  const hash = bcrypt.hashSync(initialAdminPass, salt);
+  db.prepare('INSERT INTO admin_users (username, password_hash) VALUES (?, ?)').run(initialAdminUser, hash);
+  console.log(`[DB] Created initial administrator account: ${initialAdminUser}`);
 }
 
 // Seed services if missing
