@@ -1,22 +1,184 @@
 require('dotenv').config();
-const Database = require('better-sqlite3');
 const bcrypt = require('bcryptjs');
 const crypto = require('crypto');
 const path = require('path');
 const fs = require('fs');
 const os = require('os');
 
-const dbDir = process.env.NETLIFY
+const isServerless = !!(
+  process.env.NETLIFY ||
+  process.env.VERCEL ||
+  process.env.AWS_LAMBDA_FUNCTION_NAME ||
+  process.env.LAMBDA_TASK_ROOT
+);
+
+const dbDir = isServerless
   ? path.join(os.tmpdir(), 'beavers-bridge-data')
   : path.join(__dirname, 'data');
+
 if (!fs.existsSync(dbDir)) {
-  fs.mkdirSync(dbDir, { recursive: true });
+  try {
+    fs.mkdirSync(dbDir, { recursive: true });
+  } catch (e) {
+    console.warn('[DB] Could not create database directory:', e.message);
+  }
 }
 
-const db = new Database(path.join(dbDir, 'beaversbridge.db'));
+// In-memory fallback adapter for serverless environments where native binary is unavailable
+function createMemoryDbAdapter() {
+  const store = {
+    admin_users: [],
+    services: [],
+    projects: [],
+    testimonials: [],
+    leads: [],
+    site_settings: {}
+  };
 
-// Enable WAL mode for high performance concurrency
-db.pragma('journal_mode = WAL');
+  return {
+    exec() {},
+    pragma() {},
+    prepare(sql) {
+      const s = sql.trim().toLowerCase();
+      return {
+        run(...args) {
+          if (s.includes('into admin_users')) {
+            store.admin_users.push({ id: store.admin_users.length + 1, username: args[0], password_hash: args[1], created_at: new Date().toISOString() });
+            return { lastInsertRowid: store.admin_users.length };
+          }
+          if (s.includes('into services')) {
+            store.services.push({ id: store.services.length + 1, title: args[0], slug: args[1], tagline: args[2], icon: args[3], description: args[4], deliverables: args[5], best_for: args[6], sort_order: args[7] || 0 });
+            return { lastInsertRowid: store.services.length };
+          }
+          if (s.includes('into testimonials')) {
+            store.testimonials.push({ id: store.testimonials.length + 1, client_name: args[0], client_role: args[1], client_company: args[2], avatar_url: args[3], quote: args[4], highlight_metric: args[5], rating: args[6] || 5, featured: args[7] !== undefined ? args[7] : 1, sort_order: args[8] || 0, created_at: new Date().toISOString() });
+            return { lastInsertRowid: store.testimonials.length };
+          }
+          if (s.includes('into projects')) {
+            store.projects.push({ id: store.projects.length + 1, title: args[0], client: args[1], category: args[2], summary: args[3], challenge: args[4], solution: args[5], metrics: args[6], image_url: args[7], live_url: args[8], featured: args[9] !== undefined ? args[9] : 1, sort_order: args[10] || 0, created_at: new Date().toISOString() });
+            return { lastInsertRowid: store.projects.length };
+          }
+          if (s.includes('into leads')) {
+            store.leads.push({ id: store.leads.length + 1, name: args[0], email: args[1], phone: args[2], company: args[3] || '', website: args[4] || '', service_needed: args[5] || '', monthly_budget: args[6] || '', message: args[7] || '', status: 'New', created_at: new Date().toISOString() });
+            return { lastInsertRowid: store.leads.length };
+          }
+          if (s.includes('into site_settings')) {
+            store.site_settings[args[0]] = String(args[1]);
+            return { lastInsertRowid: 1 };
+          }
+          if (s.includes('update site_settings')) {
+            store.site_settings[args[1]] = String(args[0]);
+            return { changes: 1 };
+          }
+          if (s.includes('update admin_users')) {
+            const user = store.admin_users.find(u => u.id === args[1]);
+            if (user) user.password_hash = args[0];
+            return { changes: 1 };
+          }
+          if (s.includes('update leads')) {
+            const lead = store.leads.find(l => l.id === Number(args[1]));
+            if (lead) lead.status = args[0];
+            return { changes: 1 };
+          }
+          if (s.includes('delete from leads')) {
+            const idx = store.leads.findIndex(l => l.id === Number(args[0]));
+            if (idx !== -1) store.leads.splice(idx, 1);
+            return { changes: 1 };
+          }
+          if (s.includes('delete from projects')) {
+            const idx = store.projects.findIndex(p => p.id === Number(args[0]));
+            if (idx !== -1) store.projects.splice(idx, 1);
+            return { changes: 1 };
+          }
+          if (s.includes('delete from testimonials')) {
+            const idx = store.testimonials.findIndex(t => t.id === Number(args[0]));
+            if (idx !== -1) store.testimonials.splice(idx, 1);
+            return { changes: 1 };
+          }
+          return { changes: 1, lastInsertRowid: 1 };
+        },
+        get(...args) {
+          if (s.includes('count(*) as count from admin_users')) {
+            return { count: store.admin_users.length };
+          }
+          if (s.includes('count(*) as count from services')) {
+            return { count: store.services.length };
+          }
+          if (s.includes('count(*) as count from testimonials')) {
+            return { count: store.testimonials.length };
+          }
+          if (s.includes('count(*) as count from projects')) {
+            return { count: store.projects.length };
+          }
+          if (s.includes('count(*) as count from leads')) {
+            if (s.includes('status = ?')) {
+              return { count: store.leads.filter(l => l.status === args[0]).length };
+            }
+            return { count: store.leads.length };
+          }
+          if (s.includes('from admin_users where username = ?')) {
+            return store.admin_users.find(u => u.username === args[0]);
+          }
+          if (s.includes('from projects where id = ?')) {
+            return store.projects.find(p => p.id === Number(args[0]));
+          }
+          if (s.includes('from testimonials where id = ?')) {
+            return store.testimonials.find(t => t.id === Number(args[0]));
+          }
+          if (s.includes('from site_settings where key = ?')) {
+            return store.site_settings[args[0]] ? { value: store.site_settings[args[0]] } : undefined;
+          }
+          return undefined;
+        },
+        all(...args) {
+          if (s.includes('from services')) {
+            return [...store.services].sort((a, b) => a.sort_order - b.sort_order);
+          }
+          if (s.includes('from projects')) {
+            let list = [...store.projects];
+            if (s.includes('featured = 1')) list = list.filter(p => p.featured === 1);
+            list.sort((a, b) => a.sort_order - b.sort_order || b.id - a.id);
+            if (s.includes('limit 6')) list = list.slice(0, 6);
+            if (s.includes('limit 4')) list = list.slice(0, 4);
+            return list;
+          }
+          if (s.includes('from testimonials')) {
+            let list = [...store.testimonials];
+            if (s.includes('featured = 1')) list = list.filter(t => t.featured === 1);
+            list.sort((a, b) => a.sort_order - b.sort_order || b.id - a.id);
+            return list;
+          }
+          if (s.includes('from leads')) {
+            let list = [...store.leads];
+            if (s.includes('where status = ?')) list = list.filter(l => l.status === args[0]);
+            list.sort((a, b) => b.id - a.id);
+            if (s.includes('limit 6')) list = list.slice(0, 6);
+            return list;
+          }
+          if (s.includes('from site_settings')) {
+            return Object.entries(store.site_settings).map(([key, value]) => ({ key, value }));
+          }
+          return [];
+        }
+      };
+    }
+  };
+}
+
+let db = null;
+try {
+  const Database = require('better-sqlite3');
+  const dbPath = path.join(dbDir, 'beaversbridge.db');
+  db = new Database(dbPath);
+  try {
+    db.pragma('journal_mode = WAL');
+  } catch (e) {
+    // WAL mode may not be supported on some serverless tmp filesystems
+  }
+} catch (err) {
+  console.warn('[DB] better-sqlite3 failed or unavailable, fallback to memory adapter:', err.message);
+  db = createMemoryDbAdapter();
+}
 
 // Initialize schema
 db.exec(`

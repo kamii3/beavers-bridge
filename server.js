@@ -7,7 +7,13 @@ const db = require('./db');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-const appRoot = process.env.APP_ROOT || __dirname;
+const isServerless = !!(
+  process.env.NETLIFY ||
+  process.env.VERCEL ||
+  process.env.AWS_LAMBDA_FUNCTION_NAME ||
+  process.env.LAMBDA_TASK_ROOT
+);
+const appRoot = process.env.APP_ROOT || process.cwd();
 
 // View engine setup
 app.set('view engine', 'ejs');
@@ -19,7 +25,7 @@ app.use(express.json({ limit: '10mb' }));
 
 // Static files (disable default index.html serving so dynamic EJS route handles /)
 app.use(express.static(path.join(appRoot, 'public'), { index: false }));
-if (process.env.NETLIFY) {
+if (isServerless) {
   app.use('/uploads', express.static(process.env.UPLOAD_DIR || path.join(require('os').tmpdir(), 'beavers-bridge-uploads')));
 }
 
@@ -78,7 +84,7 @@ app.use((err, req, res, next) => {
   });
 });
 
-if (!process.env.NETLIFY) {
+if (!isServerless) {
   app.listen(PORT, () => {
     console.log(`=======================================================`);
     console.log(`🌲 Beaver's Bridge Platform running at http://localhost:${PORT}`);
