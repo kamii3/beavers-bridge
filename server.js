@@ -17,8 +17,8 @@ app.set('views', path.join(appRoot, 'views'));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 app.use(express.json({ limit: '10mb' }));
 
-// Static files
-app.use(express.static(path.join(appRoot, 'public')));
+// Static files (disable default index.html serving so dynamic EJS route handles /)
+app.use(express.static(path.join(appRoot, 'public'), { index: false }));
 if (process.env.NETLIFY) {
   app.use('/uploads', express.static(process.env.UPLOAD_DIR || path.join(require('os').tmpdir(), 'beavers-bridge-uploads')));
 }

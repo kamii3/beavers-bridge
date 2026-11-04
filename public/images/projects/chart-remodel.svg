@@ -1,0 +1,54 @@
+<svg viewBox='0 0 600 320' xmlns='http://www.w3.org/2000/svg' class='chart-svg'>
+  <defs>
+    <linearGradient id='remGrad' x1='0' y1='0' x2='0' y2='1'>
+      <stop offset='0%' stop-color='#9C7221' stop-opacity='0.45'/>
+      <stop offset='100%' stop-color='#9C7221' stop-opacity='0.02'/>
+    </linearGradient>
+    <linearGradient id='barGrad1' x1='0' y1='0' x2='0' y2='1'>
+      <stop offset='0%' stop-color='#10b981'/>
+      <stop offset='100%' stop-color='#015112'/>
+    </linearGradient>
+    <linearGradient id='barGrad2' x1='0' y1='0' x2='0' y2='1'>
+      <stop offset='0%' stop-color='#eab308'/>
+      <stop offset='100%' stop-color='#9C7221'/>
+    </linearGradient>
+    <linearGradient id='barGrad3' x1='0' y1='0' x2='0' y2='1'>
+      <stop offset='0%' stop-color='#608D9A'/>
+      <stop offset='100%' stop-color='#2d5360'/>
+    </linearGradient>
+  </defs>
+
+  <rect x='10' y='10' width='580' height='300' rx='16' fill='#ffffff' stroke='rgba(156,114,33,0.18)' stroke-width='1'/>
+
+  <text x='35' y='42' font-family='Plus Jakarta Sans, sans-serif' font-size='13' font-weight='800' fill='#015112' letter-spacing='0.5'>REVENUE PIPELINE &amp; TICKET DISTRIBUTION</text>
+  <text x='35' y='60' font-family='Outfit, sans-serif' font-size='12' fill='#64748b'>High-End Kitchen, Bath &amp; Living Renovations</text>
+
+  <rect x='435' y='28' width='130' height='28' rx='14' fill='#613A17'/>
+  <text x='500' y='46' font-family='Plus Jakarta Sans, sans-serif' font-size='11' font-weight='700' fill='#ffffff' text-anchor='middle'>20k Generated</text>
+
+  <!-- Horizontal line -->
+  <line x1='35' y1='245' x2='565' y2='245' stroke='#e2e8f0' stroke-width='1.5'/>
+
+  <!-- Bar 1: Kitchens -->
+  <rect x='70' y='100' width='90' height='145' rx='10' fill='url(#barGrad1)'/>
+  <text x='115' y='90' font-family='Plus Jakarta Sans, sans-serif' font-size='13' font-weight='800' fill='#015112' text-anchor='middle'>95,000</text>
+  <text x='115' y='268' font-family='Outfit, sans-serif' font-size='11' font-weight='700' fill='#1e293b' text-anchor='middle'>Kitchens (46%)</text>
+  <text x='115' y='284' font-family='Outfit, sans-serif' font-size='10' fill='#64748b' text-anchor='middle'>Avg: 2.5k</text>
+
+  <!-- Bar 2: Full Bathrooms -->
+  <rect x='215' y='135' width='90' height='110' rx='10' fill='url(#barGrad2)'/>
+  <text x='260' y='125' font-family='Plus Jakarta Sans, sans-serif' font-size='13' font-weight='800' fill='#9C7221' text-anchor='middle'>35,000</text>
+  <text x='260' y='268' font-family='Outfit, sans-serif' font-size='11' font-weight='700' fill='#1e293b' text-anchor='middle'>Master Baths (32%)</text>
+  <text x='260' y='284' font-family='Outfit, sans-serif' font-size='10' fill='#64748b' text-anchor='middle'>Avg: 9.2k</text>
+
+  <!-- Bar 3: Decks & Additions -->
+  <rect x='360' y='175' width='90' height='70' rx='10' fill='url(#barGrad3)'/>
+  <text x='405' y='165' font-family='Plus Jakarta Sans, sans-serif' font-size='13' font-weight='800' fill='#608D9A' text-anchor='middle'>0,000</text>
+  <text x='405' y='268' font-family='Outfit, sans-serif' font-size='11' font-weight='700' fill='#1e293b' text-anchor='middle'>Decks/Patios (22%)</text>
+  <text x='405' y='284' font-family='Outfit, sans-serif' font-size='10' fill='#64748b' text-anchor='middle'>Avg: 5.0k</text>
+
+  <!-- ROI Badge Box -->
+  <rect x='475' y='120' width='95' height='75' rx='12' fill='#F8F4DF' stroke='rgba(156,114,33,0.35)'/>
+  <text x='522' y='148' font-family='Plus Jakarta Sans, sans-serif' font-size='20' font-weight='800' fill='#015112' text-anchor='middle'>4.8x</text>
+  <text x='522' y='172' font-family='Outfit, sans-serif' font-size='10' font-weight='700' fill='#613A17' text-anchor='middle'>Pipeline ROI</text>
+</svg>

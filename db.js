@@ -410,10 +410,10 @@ const defaultSettings = {
   stat_4_label: 'Verified Client Revenue Generated',
 
   // Contact & Company Info
-  contact_email: 'hello@beaversbridge.com',
-  contact_phone: '(555) 000-0000',
-  contact_response_time: 'Average Response Time: Under 4 Hours (Mon–Fri)',
-  footer_tagline: 'We build enduring digital bridges between high-craft businesses and their local communities. Turning authentic community trust into an unstoppable stream of qualified organic leads.'
+  contact_email: 'beaversbridge@gmail.com',
+  contact_phone: '+1 (347) 766-4135',
+  contact_response_time: 'Average Response Time: Under 4 Hours (Mon to Fri)',
+  footer_tagline: 'Connecting local roofers, remodelers, and tradesmen directly with homeowners who need work done. One contractor per town.'
 };
 
 // Seed default settings into database if not present

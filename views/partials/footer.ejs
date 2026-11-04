@@ -1,86 +1,59 @@
-  <!-- Footer: Beaver Brown (#613A17) Background with Creamy Ivory & Gold Typography -->
-  <footer class="footer">
-    <div class="container">
-      <div class="footer-grid">
-        <div class="footer-brand">
-          <a href="/" class="brand-logo" style="margin-bottom: 14px;">
-            <img src="/images/logo.png" alt="Beaver's Bridge Emblem" class="brand-emblem" style="border-color: var(--acorn-gold);">
-            <span class="brand-name" style="font-size: 1.6rem; color: #ffffff;">Beaver's Bridge</span>
-          </a>
-          <p>
-            <%= (settings && settings.footer_tagline) || 'We build enduring digital bridges between high-craft businesses and their local communities. Turning authentic community trust into an unstoppable stream of qualified organic leads.' %>
-          </p>
-          <div style="display: flex; gap: 14px; margin-top: 20px;">
-            <a href="https://facebook.com" target="_blank" rel="noopener" style="color: var(--creamy-ivory);" aria-label="Facebook">
-              <i data-lucide="facebook"></i>
-            </a>
-            <a href="https://instagram.com" target="_blank" rel="noopener" style="color: var(--creamy-ivory);" aria-label="Instagram">
-              <i data-lucide="instagram"></i>
-            </a>
-            <a href="https://linkedin.com" target="_blank" rel="noopener" style="color: var(--creamy-ivory);" aria-label="LinkedIn">
-              <i data-lucide="linkedin"></i>
-            </a>
-          </div>
+  <!-- Footer -->
+  <footer id="contact-footer">
+    <div class="footer-container">
+      <div class="footer-brand-block">
+        <div class="footer-logo-row">
+          <img src="/images/logo-emblem.png" alt="Beaver's Bridge Emblem" class="footer-emblem">
+          <span class="footer-brand-name">Beaver's Bridge<span>.</span></span>
         </div>
-
-        <div class="footer-col">
-          <h4>Navigation</h4>
-          <ul class="footer-links">
-            <li><a href="/">Home</a></li>
-            <li><a href="/services">Services &amp; Systems</a></li>
-            <li><a href="/projects">Case Studies</a></li>
-            <li><a href="/about">About Us</a></li>
-            <li><a href="/contact">Book Consultation</a></li>
-          </ul>
-        </div>
-
-        <div class="footer-col">
-          <h4>Core Services</h4>
-          <ul class="footer-links">
-            <li><a href="/services">Strategic Group Selection</a></li>
-            <li><a href="/services">Authority Storytelling</a></li>
-            <li><a href="/services">Community Nurturing</a></li>
-            <li><a href="/services">Organic Lead Harvesting</a></li>
-            <li><a href="/services">Sentiment Intelligence</a></li>
-          </ul>
-        </div>
-
-        <div class="footer-col">
-          <h4>Direct Inquiries</h4>
-          <p style="color: #e5dcc3; font-size: 0.9rem; margin-bottom: 12px;">
-            Ready to break free from volatile ad costs?
-          </p>
-          <p style="color: var(--acorn-gold); font-weight: 700; font-size: 1.05rem; margin-bottom: 18px;">
-            <%= (settings && settings.contact_email) || 'hello@beaversbridge.com' %>
-          </p>
-          <a href="/contact" class="btn btn-creamy" style="font-size: 0.85rem; padding: 10px 20px; width: 100%;">
-            <span>Schedule Session</span>
-          </a>
-        </div>
+        <p class="footer-desc">
+          <%= (typeof settings !== 'undefined' && settings && settings.footer_tagline) ? settings.footer_tagline : "Organic Facebook Lead Generation & Marketing Agency for Local Service Businesses." %>
+        </p>
       </div>
 
-      <div class="footer-bottom">
-        <div>
-          © <%= year %> Beaver's Bridge. All rights reserved. <span style="color: var(--acorn-gold);">www.beaversbridge.com</span>
-        </div>
-        <div style="display: flex; align-items: center; gap: 20px;">
-          <a href="/about" style="color: #d1c7ad;">Privacy Policy</a>
-          <a href="/about" style="color: #d1c7ad;">Terms of Service</a>
-          <% if (isAdmin) { %>
-            <a href="/admin" class="admin-portal-link">
-              <i data-lucide="shield" style="width: 14px; height: 14px;"></i>
-              <span>Admin Dashboard</span>
-            </a>
-          <% } else { %>
-            <a href="/login" class="admin-portal-link">
-              <i data-lucide="lock" style="width: 14px; height: 14px;"></i>
-              <span>Admin Portal</span>
-            </a>
-          <% } %>
-        </div>
+      <div class="footer-nav-block">
+        <h4>Navigation</h4>
+        <ul>
+          <li><a href="#features">What You Get</a></li>
+          <li><a href="#portfolio">Featured Results &amp; Charts</a></li>
+          <li><a href="#comparison">Why Us</a></li>
+          <li><a href="#benefits">How It Works</a></li>
+          <li><a href="#contact">Check Territory</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-contact-block">
+        <h4>Direct Contact</h4>
+        
+        <!-- Primary Phone Number (US Format) -->
+        <p style="margin-bottom: 8px;">
+          <a href="tel:<%= (typeof settings !== 'undefined' && settings && settings.contact_phone) ? settings.contact_phone.replace(/[^0-9+]/g, '') : '+13477664135' %>" style="color: var(--acorn-gold-light); font-weight: 800; font-size: 1.25rem; text-decoration: none; display: inline-flex; align-items: center; gap: 8px;">
+            <i data-lucide="phone" style="width: 18px; height: 18px; color: var(--emerald-glow);"></i>
+            <span><%= (typeof settings !== 'undefined' && settings && settings.contact_phone) ? settings.contact_phone : '+1 (347) 766-4135' %></span>
+          </a>
+        </p>
+
+        <p class="footer-email">
+          <a href="mailto:<%= (typeof settings !== 'undefined' && settings && settings.contact_email) ? settings.contact_email : 'beaversbridge@gmail.com' %>" style="color: rgba(255,255,255,0.85); text-decoration: none; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 8px;">
+            <i data-lucide="mail" style="width: 15px; height: 15px; color: var(--emerald-glow);"></i>
+            <span><%= (typeof settings !== 'undefined' && settings && settings.contact_email) ? settings.contact_email : "beaversbridge@gmail.com" %></span>
+          </a>
+        </p>
+
+        <p style="font-size: 0.85rem; color: rgba(255,255,255,0.7); margin-top: 10px;">
+          Exclusive territory rights • Direct contractor partnership
+        </p>
       </div>
     </div>
+
+    <div class="footer-bottom-bar">
+      <div>&copy; <%= typeof year !== 'undefined' ? year : 2026 %> Beaver's Bridge. All rights reserved.</div>
+      <div class="footer-tag-agency">Local Contractor Lead Generation Agency</div>
+    </div>
   </footer>
+
+  <!-- Include Case Study Modal -->
+  <%- include('case-study-modal') %>
 
   <!-- Scripts -->
   <script src="/js/main.js"></script>

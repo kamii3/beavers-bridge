@@ -284,6 +284,16 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+  // Auto-activate tab from URL query param (e.g. /admin/settings?tab=tab-contact)
+  const urlParams = new URLSearchParams(window.location.search);
+  const activeTabParam = urlParams.get('tab') || window.location.hash.replace('#', '');
+  if (activeTabParam) {
+    const targetBtn = document.querySelector(`.settings-tab-btn[data-tab="${activeTabParam}"]`);
+    if (targetBtn) {
+      targetBtn.click();
+    }
+  }
+
   // 6. Settings: Live Hero Photo Preview & Reset
   const heroImageFileInput = document.getElementById('heroImageFile');
   const heroImageUrlInput = document.getElementById('heroImageUrl');

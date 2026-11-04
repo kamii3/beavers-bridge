@@ -3,67 +3,70 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title><%= typeof title !== 'undefined' ? title : "Beaver's Bridge | Organic Community Lead Generation" %></title>
-  <meta name="description" content="<%= (typeof description !== 'undefined' && description) ? description : "Unlock high-intent organic leads and establish an undeniable community presence without spending a dime on ads." %>">
+  <title><%= typeof title !== 'undefined' ? title : "Beaver's Bridge | Organic Local Lead Generation" %></title>
+  <meta name="description" content="<%= (typeof description !== 'undefined' && description) ? description : "Organic Facebook lead generation and community marketing agency for local service contractors. Verified inbound leads with exclusive territory protection." %>">
   
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="/images/favicon.png">
   <link rel="apple-touch-icon" href="/images/favicon-128.png">
 
-  <!-- Lucide Icons -->
-  <script src="https://unpkg.com/lucide@latest"></script>
-
-  <!-- Google Fonts Suite: Avenir-style Montserrat (Titles & Subheadings) + Inter (Body) -->
+  <!-- Google Fonts: Plus Jakarta Sans & Outfit -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500;1,700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
 
   <!-- Main Stylesheet -->
   <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
 
-  <!-- Navigation Bar: Forest Green Background (#015112) with White & Acorn Gold Text -->
-  <header class="navbar">
-    <div class="container nav-container">
-      <a href="/" class="brand-logo" aria-label="Beaver's Bridge Home">
-        <img src="/images/logo.png" alt="Beaver's Bridge Emblem" class="brand-emblem">
-        <div class="brand-text">
-          <span class="brand-name">Beaver's Bridge</span>
-          <span class="brand-tag">Community Growth</span>
-        </div>
+  <!-- 3D Ambient Glowing Mesh Background -->
+  <div class="ambient-bg-canvas" aria-hidden="true">
+    <div class="ambient-sphere sphere-1"></div>
+    <div class="ambient-sphere sphere-2"></div>
+    <div class="ambient-sphere sphere-3"></div>
+  </div>
+  <div class="ambient-grid" aria-hidden="true"></div>
+
+  <!-- Glassmorphic Navigation -->
+  <nav class="navbar">
+    <div class="nav-inner">
+      <a href="/" class="nav-logo-container" aria-label="Beaver's Bridge Home">
+        <img src="/images/logo-emblem.png" alt="Beaver's Bridge Emblem" class="nav-logo-img">
+        <span class="nav-logo-text">Beaver's Bridge<span>.</span></span>
       </a>
 
-      <!-- Desktop Navigation Links -->
-      <nav>
-        <ul class="nav-links">
-          <li><a href="/" class="nav-link <%= (typeof currentPath !== 'undefined' && currentPath === '/') ? 'active' : '' %>">Home</a></li>
-          <li><a href="/services" class="nav-link <%= (typeof currentPath !== 'undefined' && currentPath === '/services') ? 'active' : '' %>">Services</a></li>
-          <li><a href="/projects" class="nav-link <%= (typeof currentPath !== 'undefined' && currentPath === '/projects') ? 'active' : '' %>">Projects</a></li>
-          <li><a href="/about" class="nav-link <%= (typeof currentPath !== 'undefined' && currentPath === '/about') ? 'active' : '' %>">About Us</a></li>
-          <li><a href="/contact" class="nav-link <%= (typeof currentPath !== 'undefined' && currentPath === '/contact') ? 'active' : '' %>">Contact</a></li>
-        </ul>
-      </nav>
+      <!-- Desktop Nav: Focused & High-Impact -->
+      <ul class="nav-links">
+        <li><a href="#features">What You Get</a></li>
+        <li><a href="#portfolio">Featured Results &amp; Charts</a></li>
+        <li><a href="#comparison">Why Us</a></li>
+        <li><a href="#benefits">How It Works</a></li>
+        <li>
+          <a href="tel:<%= (typeof settings !== 'undefined' && settings && settings.contact_phone) ? settings.contact_phone.replace(/[^0-9+]/g, '') : '+13477664135' %>" class="nav-phone-btn" title="Call or text us">
+            <i data-lucide="phone" style="width: 14px; height: 14px; color: var(--emerald-glow);"></i>
+            <span><%= (typeof settings !== 'undefined' && settings && settings.contact_phone) ? settings.contact_phone : '+1 (347) 766-4135' %></span>
+          </a>
+        </li>
+        <li><a href="#contact" class="nav-cta">Check Territory</a></li>
+      </ul>
 
-      <!-- Action Button: Soft Rounded Corners with Moss Green -> Forest Green on Hover -->
-      <div class="nav-actions">
-        <a href="/contact" class="btn btn-moss">
-          <span>Book a Call</span>
-          <i data-lucide="arrow-right" style="width: 16px; height: 16px;"></i>
-        </a>
-        <button class="mobile-toggle" aria-label="Toggle navigation menu">
-          <i data-lucide="menu"></i>
-        </button>
-      </div>
+      <!-- Mobile Hamburger Button -->
+      <button class="mobile-toggle" aria-label="Toggle navigation menu">
+        <i data-lucide="menu"></i>
+      </button>
     </div>
-  </header>
+  </nav>
 
   <!-- Mobile Drawer Menu -->
   <div class="mobile-drawer">
     <div class="mobile-drawer-header">
-      <div class="brand-logo">
-        <img src="/images/logo.png" alt="Beaver's Bridge" class="brand-emblem">
-        <span class="brand-name">Beaver's Bridge</span>
+      <div class="nav-logo-container">
+        <img src="/images/logo-emblem.png" alt="Beaver's Bridge Emblem" class="nav-logo-img">
+        <span class="nav-logo-text">Beaver's Bridge<span>.</span></span>
       </div>
       <button class="mobile-drawer-close" aria-label="Close menu">
         <i data-lucide="x"></i>
@@ -71,21 +74,21 @@
     </div>
 
     <ul class="mobile-nav-links">
-      <li><a href="/">Home</a></li>
-      <li><a href="/services">Services</a></li>
-      <li><a href="/projects">Projects &amp; Work</a></li>
-      <li><a href="/about">About Us</a></li>
-      <li><a href="/contact">Contact</a></li>
-      <% if (typeof isAdmin !== 'undefined' && isAdmin) { %>
-        <li><a href="/admin" style="color: var(--acorn-gold);">Admin Dashboard</a></li>
-      <% } else { %>
-        <li><a href="/login" style="font-size: 0.95rem; color: var(--creamy-ivory);">Admin Portal</a></li>
-      <% } %>
+      <li><a href="#features" class="mobile-nav-link">What You Get</a></li>
+      <li><a href="#portfolio" class="mobile-nav-link">Featured Results &amp; Charts</a></li>
+      <li><a href="#comparison" class="mobile-nav-link">Why Us</a></li>
+      <li><a href="#benefits" class="mobile-nav-link">How It Works</a></li>
+      <li><a href="#contact" class="mobile-nav-link" style="color: var(--emerald-glow); font-weight: 800;">Check Territory Availability</a></li>
     </ul>
 
-    <div style="margin-top: auto;">
-      <a href="/contact" class="btn btn-moss" style="width: 100%;">
-        <span>Book Strategy Session</span>
+    <div style="margin-top: auto; padding-top: 1.5rem; display: flex; flex-direction: column; gap: 10px;">
+      <a href="tel:<%= (typeof settings !== 'undefined' && settings && settings.contact_phone) ? settings.contact_phone.replace(/[^0-9+]/g, '') : '+13477664135' %>" class="btn-secondary" style="width: 100%; justify-content: center; font-size: 0.95rem;">
+        <i data-lucide="phone" style="width: 16px; height: 16px; color: var(--forest-green);"></i>
+        <span>Call: <%= (typeof settings !== 'undefined' && settings && settings.contact_phone) ? settings.contact_phone : '+1 (347) 766-4135' %></span>
+      </a>
+
+      <a href="#contact" class="btn-primary mobile-drawer-cta" style="width: 100%; justify-content: center;">
+        <span>Check Territory Availability</span>
         <i data-lucide="arrow-right" style="width: 16px; height: 16px;"></i>
       </a>
     </div>

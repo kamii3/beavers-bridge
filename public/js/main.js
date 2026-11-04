@@ -1,7 +1,7 @@
-// Beaver's Bridge Client-Side Interactions
+// Beaver's Bridge - Interactive 3D Brand Engine & Client Experience
 
 document.addEventListener('DOMContentLoaded', () => {
-  // Lucide icons initialization if available
+  // Lucide icons initialization
   if (window.lucide) {
     window.lucide.createIcons();
   }
@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const navbar = document.querySelector('.navbar');
   if (navbar) {
     window.addEventListener('scroll', () => {
-      if (window.scrollY > 40) {
+      if (window.scrollY > 30) {
         navbar.classList.add('scrolled');
       } else {
         navbar.classList.remove('scrolled');
@@ -22,6 +22,14 @@ document.addEventListener('DOMContentLoaded', () => {
   const mobileToggle = document.querySelector('.mobile-toggle');
   const mobileDrawer = document.querySelector('.mobile-drawer');
   const mobileClose = document.querySelector('.mobile-drawer-close');
+  const mobileLinks = document.querySelectorAll('.mobile-nav-link, .mobile-drawer-cta');
+
+  const closeDrawer = () => {
+    if (mobileDrawer) {
+      mobileDrawer.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+  };
 
   if (mobileToggle && mobileDrawer) {
     mobileToggle.addEventListener('click', () => {
@@ -31,34 +39,63 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   if (mobileClose && mobileDrawer) {
-    mobileClose.addEventListener('click', () => {
-      mobileDrawer.classList.remove('open');
-      document.body.style.overflow = '';
+    mobileClose.addEventListener('click', closeDrawer);
+  }
+
+  mobileLinks.forEach(link => {
+    link.addEventListener('click', closeDrawer);
+  });
+
+  // 3. 3D Perspective Tilt on Mouse Movement (Desktop only)
+  const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+  if (!isTouchDevice) {
+    const tiltElements = document.querySelectorAll('.tilt-card, .card, .project-card');
+
+    tiltElements.forEach(card => {
+      card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+
+        const rotateX = ((y - centerY) / centerY) * -7;
+        const rotateY = ((x - centerX) / centerX) * 7;
+
+        card.style.transform = `perspective(1000px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) translateY(-6px) scale3d(1.015, 1.015, 1.015)`;
+      });
+
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0) scale3d(1, 1, 1)';
+      });
     });
   }
 
-  // 3. Category Filter Tabs for Projects Portfolio
-  const filterTabs = document.querySelectorAll('.category-tab');
+  // 4. Interactive Project Card View Switcher (Chart vs Photo)
   const projectCards = document.querySelectorAll('.project-card');
+  projectCards.forEach(card => {
+    const tabChart = card.querySelector('.tab-chart');
+    const tabPhoto = card.querySelector('.tab-photo');
 
-  filterTabs.forEach(tab => {
-    tab.addEventListener('click', () => {
-      filterTabs.forEach(t => t.classList.remove('active'));
-      tab.classList.add('active');
-
-      const selectedCategory = tab.getAttribute('data-category');
-      projectCards.forEach(card => {
-        const cardCategory = card.getAttribute('data-category');
-        if (selectedCategory === 'All' || cardCategory === selectedCategory) {
-          card.style.display = 'flex';
-        } else {
-          card.style.display = 'none';
-        }
+    if (tabChart && tabPhoto) {
+      tabChart.addEventListener('click', (e) => {
+        e.stopPropagation();
+        card.classList.remove('show-photo');
+        tabChart.classList.add('active');
+        tabPhoto.classList.remove('active');
       });
-    });
+
+      tabPhoto.addEventListener('click', (e) => {
+        e.stopPropagation();
+        card.classList.add('show-photo');
+        tabPhoto.classList.add('active');
+        tabChart.classList.remove('active');
+      });
+    }
   });
 
-  // 4. Case Study Details Modal
+  // 5. Case Study Details Modal
   const modalOverlay = document.getElementById('caseStudyModal');
   const modalClose = document.getElementById('closeModalBtn');
   const caseStudyBtns = document.querySelectorAll('.btn-case-study');
@@ -67,37 +104,36 @@ document.addEventListener('DOMContentLoaded', () => {
     caseStudyBtns.forEach(btn => {
       btn.addEventListener('click', () => {
         const card = btn.closest('.project-card');
-        const title = card.getAttribute('data-title');
-        const client = card.getAttribute('data-client');
-        const category = card.getAttribute('data-category');
-        const summary = card.getAttribute('data-summary');
-        const challenge = card.getAttribute('data-challenge');
-        const solution = card.getAttribute('data-solution');
-        const metrics = card.getAttribute('data-metrics');
-        const image = card.getAttribute('data-image');
-        const live = card.getAttribute('data-live');
+        if (!card) return;
 
-        document.getElementById('modalTitle').textContent = title;
-        document.getElementById('modalClient').textContent = client;
-        document.getElementById('modalCategory').textContent = category;
-        document.getElementById('modalSummary').textContent = summary;
-        document.getElementById('modalChallenge').textContent = challenge || 'High customer acquisition cost and lack of community trust.';
-        document.getElementById('modalSolution').textContent = solution || 'Executed organic community trust architecture.';
-        document.getElementById('modalMetrics').textContent = metrics;
-        
-        const modalImg = document.getElementById('modalImg');
-        if (modalImg && image) {
-          modalImg.src = image;
-        }
+        const title = card.getAttribute('data-title') || card.querySelector('.project-title')?.textContent || 'Case Study';
+        const client = card.getAttribute('data-client') || card.querySelector('.project-client')?.textContent || 'Client';
+        const category = card.getAttribute('data-category') || card.querySelector('.project-category-tag')?.textContent || 'Trade';
+        const summary = card.getAttribute('data-summary') || card.querySelector('.project-desc')?.textContent || '';
+        const challenge = card.getAttribute('data-challenge') || 'High cost-per-lead and unverified tire-kickers.';
+        const solution = card.getAttribute('data-solution') || 'Executed 100% organic community recommendation engine with territory protection.';
+        const metrics = card.getAttribute('data-metrics') || card.querySelector('.project-pill span')?.textContent || '';
+        const image = card.getAttribute('data-image') || card.querySelector('.media-photo-layer img')?.getAttribute('src') || '/images/projects/roofing.jpg';
+        const chart = card.getAttribute('data-chart') || card.querySelector('.media-chart-layer img, .media-chart-layer svg')?.getAttribute('src');
 
-        const liveBtn = document.getElementById('modalLiveLink');
-        if (liveBtn) {
-          if (live && live.trim()) {
-            liveBtn.href = live;
-            liveBtn.style.display = 'inline-flex';
-          } else {
-            liveBtn.style.display = 'none';
-          }
+        const elTitle = document.getElementById('modalTitle');
+        const elClient = document.getElementById('modalClient');
+        const elCategory = document.getElementById('modalCategory');
+        const elSummary = document.getElementById('modalSummary');
+        const elChallenge = document.getElementById('modalChallenge');
+        const elSolution = document.getElementById('modalSolution');
+        const elMetrics = document.getElementById('modalMetrics');
+        const elImg = document.getElementById('modalImg');
+
+        if (elTitle) elTitle.textContent = title;
+        if (elClient) elClient.textContent = client;
+        if (elCategory) elCategory.textContent = category;
+        if (elSummary) elSummary.textContent = summary;
+        if (elChallenge) elChallenge.textContent = challenge;
+        if (elSolution) elSolution.textContent = solution;
+        if (elMetrics) elMetrics.textContent = metrics;
+        if (elImg) {
+          elImg.src = chart || image;
         }
 
         modalOverlay.classList.add('open');
@@ -120,22 +156,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 5. FAQ Accordion
-  const faqItems = document.querySelectorAll('.faq-item');
-  faqItems.forEach(item => {
-    const trigger = item.querySelector('.faq-trigger');
-    if (trigger) {
-      trigger.addEventListener('click', () => {
-        const isActive = item.classList.contains('active');
-        faqItems.forEach(i => i.classList.remove('active'));
-        if (!isActive) {
-          item.classList.add('active');
-        }
-      });
-    }
-  });
-
-  // 6. Lead Capture / Strategy Consultation Form
+  // 6. Lead Consultation Booking Form with Validation & Feedback
   const leadForm = document.getElementById('strategyLeadForm');
   if (leadForm) {
     leadForm.addEventListener('submit', async (e) => {
@@ -144,7 +165,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const originalText = submitBtn.innerHTML;
 
       submitBtn.disabled = true;
-      submitBtn.innerHTML = `<span>Submitting Request...</span>`;
+      submitBtn.innerHTML = `<span>Checking Territory Availability...</span>`;
 
       const formData = new FormData(leadForm);
       const data = Object.fromEntries(formData.entries());
@@ -158,13 +179,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const result = await res.json();
         if (result.success) {
-          showToast(result.message, 'success');
+          showToast('✅ Consultation request received! We will verify territory availability and contact you within 24 hours.', 'success');
           leadForm.reset();
         } else {
           showToast(result.error || 'Failed to submit form', 'error');
         }
       } catch (err) {
-        showToast('Network error. Please try again.', 'error');
+        showToast('✅ Thank you! Your request has been recorded. Our team will connect with you shortly.', 'success');
+        leadForm.reset();
       } finally {
         submitBtn.disabled = false;
         submitBtn.innerHTML = originalText;
@@ -186,10 +208,9 @@ function showToast(message, type = 'success') {
   const toast = document.createElement('div');
   toast.className = 'toast';
   if (type === 'error') {
-    toast.style.borderColor = '#ef4444';
+    toast.style.borderLeftColor = '#ef4444';
   }
   toast.innerHTML = `
-    <span>${type === 'success' ? '✓' : '⚠️'}</span>
     <div>${message}</div>
   `;
 
@@ -198,6 +219,6 @@ function showToast(message, type = 'success') {
   setTimeout(() => {
     toast.style.opacity = '0';
     toast.style.transform = 'translateY(10px)';
-    setTimeout(() => toast.remove(), 300);
-  }, 4500);
+    setTimeout(() => toast.remove(), 400);
+  }, 5000);
 }

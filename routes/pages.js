@@ -12,7 +12,7 @@ function getCommonContext(req) {
 }
 
 // ---------------------------------------------
-// 1. HOME PAGE
+// 1. HOME / PORTFOLIO SHOWCASE PAGE
 // ---------------------------------------------
 router.get('/', (req, res) => {
   try {
@@ -26,8 +26,8 @@ router.get('/', (req, res) => {
 
     res.render('index', {
       ...getCommonContext(req),
-      title: "Beaver's Bridge | Organic Community Lead Generation & Brand Authority",
-      description: "Unlock high-intent organic leads and establish an undeniable community presence without burning budget on ads. Modeled after elite community growth frameworks.",
+      title: "Beaver's Bridge | Organic Facebook Lead Generation & Marketing Agency",
+      description: "Organic Facebook lead generation and marketing agency for local service businesses. High-intent local leads without wasting money on ads.",
       services,
       projects,
       testimonials
@@ -38,88 +38,11 @@ router.get('/', (req, res) => {
   }
 });
 
-// ---------------------------------------------
-// 2. ABOUT US PAGE
-// ---------------------------------------------
-router.get('/about', (req, res) => {
-  try {
-    const testimonials = db.prepare('SELECT * FROM testimonials WHERE featured = 1 ORDER BY sort_order ASC LIMIT 3').all();
-
-    res.render('about', {
-      ...getCommonContext(req),
-      title: "About Beaver's Bridge | Crafting Community Trust & Sustainable Growth",
-      description: "Learn how Beaver's Bridge was founded on the principle that the most resilient businesses are trusted community pillars, not noisy advertisers.",
-      testimonials
-    });
-  } catch (err) {
-    console.error('About page error:', err);
-    res.status(500).send('Server Error');
-  }
-});
-
-// ---------------------------------------------
-// 3. SERVICES PAGE
-// ---------------------------------------------
-router.get('/services', (req, res) => {
-  try {
-    const services = db.prepare('SELECT * FROM services ORDER BY sort_order ASC').all().map(s => ({
-      ...s,
-      deliverables: JSON.parse(s.deliverables || '[]')
-    }));
-
-    res.render('services', {
-      ...getCommonContext(req),
-      title: "Services & Systems | Beaver's Bridge Community Acquisition",
-      description: "Explore our proven 6-pillar organic community system: group intelligence, authority copywriting, active peer nurturing, and high-conversion lead harvesting.",
-      services
-    });
-  } catch (err) {
-    console.error('Services page error:', err);
-    res.status(500).send('Server Error');
-  }
-});
-
-// ---------------------------------------------
-// 4. PROJECTS / PORTFOLIO PAGE
-// ---------------------------------------------
-router.get('/projects', (req, res) => {
-  try {
-    const projects = db.prepare('SELECT * FROM projects ORDER BY sort_order ASC, id DESC').all();
-    
-    // Extract unique categories
-    const categories = ['All', ...new Set(projects.map(p => p.category))];
-
-    res.render('projects', {
-      ...getCommonContext(req),
-      title: "Projects & Proven Results | Beaver's Bridge Portfolio",
-      description: "Real case studies, verified metrics, and revenue generated through our organic community lead generation systems.",
-      projects,
-      categories
-    });
-  } catch (err) {
-    console.error('Projects page error:', err);
-    res.status(500).send('Server Error');
-  }
-});
-
-// ---------------------------------------------
-// 5. CONTACT & BOOKING PAGE
-// ---------------------------------------------
-router.get('/contact', (req, res) => {
-  try {
-    const services = db.prepare('SELECT id, title FROM services ORDER BY sort_order ASC').all();
-
-    res.render('contact', {
-      ...getCommonContext(req),
-      title: "Schedule Your Free Strategy Session | Beaver's Bridge",
-      description: "Book your 1-on-1 organic growth strategy session and discover how to capture high-intent community leads in your local market.",
-      services
-    });
-  } catch (err) {
-    console.error('Contact page error:', err);
-    res.status(500).send('Server Error');
-  }
-});
+// Single-page portfolio redirects for clean, non-rushed UX
+router.get('/about', (req, res) => res.redirect('/#benefits'));
+router.get('/services', (req, res) => res.redirect('/#features'));
+router.get('/projects', (req, res) => res.redirect('/#portfolio'));
+router.get('/contact', (req, res) => res.redirect('/#contact'));
 
 // ---------------------------------------------
 // 6. LOGIN / AUTHENTICATION
